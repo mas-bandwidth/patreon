@@ -17,8 +17,6 @@
 > Every fix has a regression test, and the full honest accounting is here:
 > **[the bugs found and fixed with the help of AI →](BUGS.md)**
 
-*[patreon.com/MasBandwidth](https://patreon.com/MasBandwidth)*
-
 ---
 
 ## Introduction
