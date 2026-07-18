@@ -1,5 +1,22 @@
 # Más Bandwidth on Patreon
 
+> ## ⚠️ Security notice: upgrade your libraries
+>
+> The 2026 hardening work found and fixed real security bugs in code that had
+> shipped for years, including a **remotely reachable heap overflow in yojimbo
+> present in every release since 2019**. If you use any of these libraries in a
+> product, upgrade to the latest release now:
+>
+> | Library | Upgrade | What it fixes |
+> |---|---|---|
+> | **yojimbo** | [→ latest release](https://github.com/mas-bandwidth/yojimbo/releases/latest) | remote heap overflow, wire-reachable asserts, union misread (fixed in v1.5.0) |
+> | **netcode** | [→ latest release](https://github.com/mas-bandwidth/netcode/releases/latest) | replay-protection overflow, memory-safety hardening |
+> | **reliable** | [→ latest release](https://github.com/mas-bandwidth/reliable/releases/latest) | read-buffer over-read, integer overflow |
+> | **serialize** | [→ latest release](https://github.com/mas-bandwidth/serialize/releases/latest) | fuzz-hardened, wire format pinned on every platform |
+>
+> Every fix has a regression test, and the full honest accounting is here:
+> **[the bugs found and fixed with the help of AI →](BUGS.md)**
+
 *[patreon.com/MasBandwidth](https://patreon.com/MasBandwidth)*
 
 **Creating open source game networking code, and the articles that explain it.**
