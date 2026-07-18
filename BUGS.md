@@ -4,136 +4,113 @@ In 2026 the open source under [github.com/mas-bandwidth](https://github.com/mas-
 became a disclosed collaboration between Glenn Fiedler and an AI collaborator
 (Claude Code, Fable 5). One of the first things the collaboration did was turn
 serious tooling on code that had shipped for years: libFuzzer targets over
-every untrusted parser, AddressSanitizer/UBSan/MemorySanitizer CI, multi-million
-iteration soaks, and line-by-line review.
+every untrusted parser, AddressSanitizer / UBSan / MemorySanitizer CI,
+multi-million-iteration soaks, and a line-by-line security audit.
 
-This page is the honest record of what that found. Every item links to the
-release or pull request that fixed it, so you can verify each one yourself.
+This page is the honest record of what that found, **built from the actual
+commit diffs**, not release notes. Every row links to the commit that fixed it
+and to the release it shipped in, so you can verify each one yourself.
 
-**If you are using older versions of these libraries, upgrade now.** The
-strongest items below are real security vulnerabilities that shipped in
-hand-written code for years — including a remotely reachable heap overflow
-that existed in every yojimbo release since at least 2019. Every fix has a
-regression test.
+**43 fixes across the four libraries, 27 of them reachable from the network** (a
+crafted packet or untrusted input can trigger them). The most serious is a
+remotely reachable heap overflow in yojimbo present in every release since 2019.
+Every fix has a regression test.
 
-| Library | Upgrade to | Why |
+## If you use these libraries in a product, upgrade now
+
+| Library | Upgrade to | The reason |
 |---|---|---|
-| **yojimbo** | **v1.7.0** or later | remote heap overflow, wire-reachable asserts, union misread (v1.5.0); AEAD nonce-reuse on restart via vendored netcode (v1.7.0) |
-| **netcode** | **v1.4.0** or later | AEAD nonce-reuse on server restart (v1.4.0), replay-protection overflow, Debug-vs-Release memory-safety gap |
-| **reliable** | v1.3.2 or later | fragment-reassembly integer overflow |
-| **serialize** | v1.4.3 or later | fuzz-verified + golden wire format pinned on every platform |
+| **yojimbo** | [v1.7.0](https://github.com/mas-bandwidth/yojimbo/releases/latest) | remote heap overflow, uninitialized-union reads, wire-reachable DoS asserts; also ships the netcode AEAD fix |
+| **netcode** | [v1.4.0](https://github.com/mas-bandwidth/netcode/releases/latest) | AEAD nonce-reuse on server restart; release-build bounds guards |
+| **reliable** | [v1.3.5](https://github.com/mas-bandwidth/reliable/releases/latest) | read-buffer over-read on the fragment path; reassembly integer overflow |
+| **serialize** | [v1.4.4](https://github.com/mas-bandwidth/serialize/releases/latest) | read-past-end guard, wire-value validation, unaligned-read UB |
 
 *No double counting: each bug is listed once, under the library whose code
-contained it. yojimbo ships netcode, reliable, and serialize inside it — so
+contained it. yojimbo ships netcode, reliable and serialize inside it, so
 upgrading yojimbo picks up their fixes too.*
+
+**Column key.** *Type:* Write OOB / Read OOB = out-of-bounds memory access · UB =
+undefined behavior · DoS / crash = a packet can crash or hang the process ·
+Validation = missing check on untrusted input · Crypto · Correctness ·
+Robustness = leak / allocator-exhaustion hardening. *Wire:* ✓ means an attacker
+can trigger it with a crafted packet or untrusted input over the network; — means
+it needs local API misuse or is on the send/write path.
 
 ---
 
-## yojimbo
-
-Found by the fuzzing campaign and review in [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0)
-(July 2026) — five libFuzzer targets over every untrusted parser, validated by
-a 5.5-million-iteration ASan/UBSan soak at high packet loss:
-
-- **Remote heap overflow in block reassembly** — a connected peer could send
-  an over-long final fragment and corrupt heap memory (the copy ran before the
-  size check). Confirmed with AddressSanitizer; the vulnerable code existed in
-  every release since at least v1.2.1 (2019). Fixed with a regression test
-  that trips ASan against the pre-fix source.
-  ([#283](https://github.com/mas-bandwidth/yojimbo/pull/283)) — *security*
-- **`ChannelPacketData` union misread** — message/block union confusion on the
-  packet read path; made safe by construction (de-unioned).
-  ([#280](https://github.com/mas-bandwidth/yojimbo/pull/280)) — *security*
-- **Remote DoS via debug asserts reachable from the wire** — an over-budget
-  packet on the read path could assert-kill a debug server.
-  ([#281](https://github.com/mas-bandwidth/yojimbo/pull/281)) — *security (debug builds)*
-- **Uninitialized read of `block.messageType`** on a disabled-blocks channel.
-  ([#272](https://github.com/mas-bandwidth/yojimbo/pull/272)) — *memory safety*
-- **Undefined behavior from unaligned bit-reader reads** on the packet receive
-  path. ([#251](https://github.com/mas-bandwidth/yojimbo/pull/251)) — *UB*
-- **Allocation-failure crashes** — two OOM crashes under adversarial block
-  fragments and allocator exhaustion, found by fuzzing allocation failures.
-  ([#286](https://github.com/mas-bandwidth/yojimbo/pull/286),
-  [#284](https://github.com/mas-bandwidth/yojimbo/pull/284),
-  [#285](https://github.com/mas-bandwidth/yojimbo/pull/285)) — *robustness*
-- **Block fragment-count overflow** and a **network-simulator packet leak**.
-  ([#254](https://github.com/mas-bandwidth/yojimbo/pull/254)) — *correctness*
-- **Matcher expiry check was always true** — token expiry was effectively not
-  enforced in the matcher example; also hardened error/key defaults.
-  ([#261](https://github.com/mas-bandwidth/yojimbo/pull/261)) — *security (example code)*
-- **NULL-client crashes** in `Client::Connect` / `ConnectLoopback` on socket
-  failure and `Client::IsLoopback` when disconnected.
-  ([#287](https://github.com/mas-bandwidth/yojimbo/pull/287),
-  [#288](https://github.com/mas-bandwidth/yojimbo/pull/288)) — *robustness*
-- **Packet-size budgeting overflow (caught before it ever shipped)** — during
-  the v1.6.0 serialize upgrade, a `maxPacketSize` not divisible by 8 would
-  have overflowed the packet buffer by up to 7 bytes in release builds; caught
-  in development by serialize's new debug assert and fixed in the same
-  release. Listed for completeness — no shipped version was affected.
-  ([v1.6.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.6.0)) — *correctness*
-
 ## netcode
 
-- **AEAD nonce reuse across server restart** — the server's global packet
-  sequence (connection-challenge and denied packets) was seeded only in
-  `netcode_server_create` and reset to zero by `netcode_server_stop`, so a
-  stopped-and-restarted server re-encrypted global packets at sequence 0, 1,
-  2 … under the same server→client key it uses for per-client packets: the
-  same key and nonce over different plaintexts, which breaks the AEAD
-  guarantees. Found while porting netcode to Rust. Fixed in
-  [v1.4.0](https://github.com/mas-bandwidth/netcode/releases/tag/v1.4.0), and
-  picked up by yojimbo
-  [v1.7.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.7.0). — *security*
+*7 fixes, 2 reachable from the network. netcode's read path was already solid;
+most of these are defense-in-depth for release builds and integrators.*
 
-Fixed in [v1.3.0](https://github.com/mas-bandwidth/netcode/releases/tag/v1.3.0) (July 2026):
-
-- **Integer overflow in replay protection** — sequence numbers near the top of
-  the 64-bit space could be falsely rejected. Found by fuzzing; rewritten
-  overflow-safe. The buggy line is verifiable in the v1.2.1 tag from 2019 —
-  it shipped for roughly seven years. — *correctness*
-- **Debug-vs-Release memory-safety gap** — public entry points guarded only by
-  asserts (e.g. an out-of-range `max_clients` to `netcode_server_start`)
-  compiled to no protection at all in release builds; now runtime bounds
-  guards. — *security hardening*
-- **Port parsing truncated instead of validating**; a zeroed config crashed
-  instead of getting default allocators; `netcode_init`/`netcode_term` are now
-  reference counted. — *correctness*
+| Commit | Bug | Type | Severity | Wire | Fixed in |
+|---|---|---|---|:--:|---|
+| [`dc21b70`](https://github.com/mas-bandwidth/netcode/commit/dc21b70) | AEAD nonce reuse: a stopped-and-restarted server re-encrypts global packets at sequence 0 under the same key as per-client packets | Crypto | High | ✓ | [v1.4.0](https://github.com/mas-bandwidth/netcode/releases/tag/v1.4.0) |
+| [`7c638bd`](https://github.com/mas-bandwidth/netcode/commit/7c638bd) | Replay-protection add overflowed near UINT64_MAX, falsely rejecting legitimate high-sequence packets | Correctness | Low | ✓ | [v1.3.0](https://github.com/mas-bandwidth/netcode/releases/tag/v1.3.0) |
+| [`7ef3604`](https://github.com/mas-bandwidth/netcode/commit/7ef3604) | Release builds skipped assert-only bounds checks, so an out-of-range client_index / max_clients indexed per-client arrays out of bounds | Write OOB | Medium | — | [v1.3.0](https://github.com/mas-bandwidth/netcode/releases/tag/v1.3.0) |
+| [`8283fae`](https://github.com/mas-bandwidth/netcode/commit/8283fae) | An oversized packet to send_packet overflowed a fixed on-stack buffer in release builds (guard was assert-only) | Write OOB | Medium | — | [v1.3.0](https://github.com/mas-bandwidth/netcode/releases/tag/v1.3.0) |
+| [`478f5e7`](https://github.com/mas-bandwidth/netcode/commit/478f5e7) | Port parsing used atoi(), silently truncating out-of-range or non-numeric ports instead of rejecting them | Validation | Low | — | [v1.3.0](https://github.com/mas-bandwidth/netcode/releases/tag/v1.3.0) |
+| [`8283fae`](https://github.com/mas-bandwidth/netcode/commit/8283fae) | Bracketed-IPv6 port scan matched the colons inside the address, corrupting the parsed address string | Correctness | Low | — | [v1.3.0](https://github.com/mas-bandwidth/netcode/releases/tag/v1.3.0) |
+| [`c14229c`](https://github.com/mas-bandwidth/netcode/commit/c14229c) | Public process_packet lacked a size/running guard, reading packet_data[0] on a 0-byte packet (affects direct API callers only) | DoS / crash | Low | — | [v1.3.0](https://github.com/mas-bandwidth/netcode/releases/tag/v1.3.0) |
 
 ## reliable
 
-- **Integer overflow in the fragment reassembly buffer-size computation** —
-  now computed in `size_t` arithmetic. Reported by **@orbisai0security**
-  (external report — credited where credit is due; fixed and shipped by the
-  collaboration in
-  [v1.3.2](https://github.com/mas-bandwidth/reliable/releases/tag/v1.3.2)). — *security*
-- **Read buffer over-read on the fragment read path** — a crafted incoming
-  fragment could make `reliable_read_fragment_header` read up to
-  `RELIABLE_FRAGMENT_HEADER_BYTES` past the end of the receive buffer: the read
-  pointer was advanced past the fragment header but the *full* packet length was
-  still passed to the packet-header reader. Found by AI review; fixed in
-  [v1.3.0](https://github.com/mas-bandwidth/reliable/releases/tag/v1.3.0). — *memory safety*
-- Hardening in [v1.3.0](https://github.com/mas-bandwidth/reliable/releases/tag/v1.3.0):
-  **duplicate packets within the receive window are now detected and dropped**,
-  fragments with non-canonical headers are rejected, fragments for
-  already-received packets are dropped on arrival, and the send path no longer
-  allocates. — *robustness*
+*7 fixes, 6 reachable from the network.*
+
+| Commit | Bug | Type | Severity | Wire | Fixed in |
+|---|---|---|---|:--:|---|
+| [`f0e3be1`](https://github.com/mas-bandwidth/reliable/commit/f0e3be1) | Fragment-header read passed the full packet length after advancing past the 5-byte header, over-reading the receive buffer | Read OOB | High | ✓ | [v1.3.0](https://github.com/mas-bandwidth/reliable/releases/tag/v1.3.0) |
+| [`d747162`](https://github.com/mas-bandwidth/reliable/commit/d747162) | Reassembly buffer size computed in signed int could overflow (reported by [@orbisai0security](https://github.com/orbisai0security)) | UB | Medium | ✓ | [v1.3.2](https://github.com/mas-bandwidth/reliable/releases/tag/v1.3.2) |
+| [`42e6725`](https://github.com/mas-bandwidth/reliable/commit/42e6725) | Fragment-0 payload length validated against the wire byte-count instead of the re-encoded header size | Correctness | Low | ✓ | [v1.3.0](https://github.com/mas-bandwidth/reliable/releases/tag/v1.3.0) |
+| [`2ec8b0f`](https://github.com/mas-bandwidth/reliable/commit/2ec8b0f) | Packets duplicated or replayed within the receive window were delivered twice | Correctness | Low | ✓ | [v1.3.0](https://github.com/mas-bandwidth/reliable/releases/tag/v1.3.0) |
+| [`1f40e42`](https://github.com/mas-bandwidth/reliable/commit/1f40e42) | A duplicate final fragment arriving after reassembly bypassed the duplicate check | Correctness | Low | ✓ | [v1.3.0](https://github.com/mas-bandwidth/reliable/releases/tag/v1.3.0) |
+| [`f65b33b`](https://github.com/mas-bandwidth/reliable/commit/f65b33b) | Bandwidth stats divided by a near-zero interval, producing NaN/Inf (the guard only checked exactly zero) | Correctness | Low | ✓ | [v1.3.0](https://github.com/mas-bandwidth/reliable/releases/tag/v1.3.0) |
+| [`f65b33b`](https://github.com/mas-bandwidth/reliable/commit/f65b33b) | A reassembly entry's packet_header_bytes was read before fragment 0 initialized it | Read OOB | Low | — | [v1.3.0](https://github.com/mas-bandwidth/reliable/releases/tag/v1.3.0) |
 
 ## serialize
 
-The honest note first: the campaign found no security vulnerability in
-serialize's own shipped code. What it added is the machinery that *proves*
-that, on every push:
+*11 fixes, 7 reachable from the network. No known exploit in shipped code; these
+are the read-path validation and undefined-behavior fixes the audit and fuzzing
+turned up, on a 2016-era bit-packing library.*
 
-- A **golden wire-format test** pins the exact bytes the serializer produces —
-  Linux, macOS, Windows and big-endian s390x (GCC under QEMU) all produce and
-  decode byte-identical wire data.
-  ([v1.3.0](https://github.com/mas-bandwidth/serialize/releases/tag/v1.3.0))
-- A **libFuzzer harness** runs hostile reads of arbitrary bytes through every
-  ReadStream primitive plus a differential write→read round trip — 60 seconds
-  on every push, 1 hour nightly with a cumulative corpus.
-- The 2026 line also removed the 256 MB buffer limit, made reads ~4× faster,
-  and tightened the buffer contracts so misuse fails loudly in debug builds
-  ([v1.4.0](https://github.com/mas-bandwidth/serialize/releases/tag/v1.4.0)–[v1.4.3](https://github.com/mas-bandwidth/serialize/releases/tag/v1.4.3)).
+| Commit | Bug | Type | Severity | Wire | Fixed in |
+|---|---|---|---|:--:|---|
+| [`e7c7c33`](https://github.com/mas-bandwidth/serialize/commit/e7c7c33) | SerializeBytes computed its read-past-end guard with a signed byte count and no lower-bound check | Read OOB | High | ✓ | [v1.3.0](https://github.com/mas-bandwidth/serialize/releases/tag/v1.3.0) |
+| [`049d42b`](https://github.com/mas-bandwidth/serialize/commit/049d42b) | BitReader did aligned 32-bit loads on a possibly-unaligned packet pointer | UB | Medium | ✓ | [v1.3.0](https://github.com/mas-bandwidth/serialize/releases/tag/v1.3.0) |
+| [`e7c7c33`](https://github.com/mas-bandwidth/serialize/commit/e7c7c33) | Compressed-float read never validated the quantized integer taken from the wire | Validation | Medium | ✓ | [v1.3.0](https://github.com/mas-bandwidth/serialize/releases/tag/v1.3.0) |
+| [`2daaba3`](https://github.com/mas-bandwidth/serialize/commit/2daaba3) | SerializeInteger reconstructed values with signed arithmetic that could overflow | UB | Medium | ✓ | [v1.3.0](https://github.com/mas-bandwidth/serialize/releases/tag/v1.3.0) |
+| [`e7c7c33`](https://github.com/mas-bandwidth/serialize/commit/e7c7c33) | SerializeInteger returned out-of-range values without rejecting them | Validation | Low | ✓ | [v1.3.0](https://github.com/mas-bandwidth/serialize/releases/tag/v1.3.0) |
+| [`e7c7c33`](https://github.com/mas-bandwidth/serialize/commit/e7c7c33) | int_relative's 32-bit fallback read a raw value without enforcing the encoding's range | Validation | Low | ✓ | [v1.3.0](https://github.com/mas-bandwidth/serialize/releases/tag/v1.3.0) |
+| [`2c9501b`](https://github.com/mas-bandwidth/serialize/commit/2c9501b) | int_relative reconstructed values in signed arithmetic that could overflow | UB | Low | ✓ | [v1.3.0](https://github.com/mas-bandwidth/serialize/releases/tag/v1.3.0) |
+| [`2daaba3`](https://github.com/mas-bandwidth/serialize/commit/2daaba3) | Compressed-float max integer value computed with no clamp (write path) | UB | Low | — | [v1.3.0](https://github.com/mas-bandwidth/serialize/releases/tag/v1.3.0) |
+| [`3124bbb`](https://github.com/mas-bandwidth/serialize/commit/3124bbb) | Compressed-float normalized value not fully bounded before scaling (write path) | UB | Low | — | [v1.3.0](https://github.com/mas-bandwidth/serialize/releases/tag/v1.3.0) |
+| [`e7c7c33`](https://github.com/mas-bandwidth/serialize/commit/e7c7c33) | Zig-zag helpers left-shifted a signed int (signed-shift UB) | UB | Low | — | [v1.3.0](https://github.com/mas-bandwidth/serialize/releases/tag/v1.3.0) |
+| [`b732fd8`](https://github.com/mas-bandwidth/serialize/commit/b732fd8) | BitWriter stored through an aligned 32-bit pointer that could be unaligned | UB | Low | — | [v1.3.0](https://github.com/mas-bandwidth/serialize/releases/tag/v1.3.0) |
+
+## yojimbo
+
+*18 fixes, 12 reachable from the network.*
+
+| Commit | Bug | Type | Severity | Wire | Fixed in |
+|---|---|---|---|:--:|---|
+| [`d3d4f33`](https://github.com/mas-bandwidth/yojimbo/commit/d3d4f33) | Remote heap overflow: a block fragment was memcpy'd into the reassembly buffer before its size was validated (present since 2019) | Write OOB | Critical | ✓ | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`50d2ae0`](https://github.com/mas-bandwidth/yojimbo/commit/50d2ae0) | Unreliable channel read the messages array without checking the block-message flag, writing past it | Write OOB | High | ✓ | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`b2fccb2`](https://github.com/mas-bandwidth/yojimbo/commit/b2fccb2) | ChannelPacketData::Initialize zeroed only part of the message/block union, leaving a stale pointer to be read | Read OOB | High | ✓ | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`fc90d41`](https://github.com/mas-bandwidth/yojimbo/commit/fc90d41) | BitReader did 32-bit word loads on an unaligned reliable-payload pointer | UB | Medium | ✓ | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`1b6bec0`](https://github.com/mas-bandwidth/yojimbo/commit/1b6bec0) | An over-budget packet on the read path tripped a debug assert (remote DoS) | DoS / crash | Medium | ✓ | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`50d2ae0`](https://github.com/mas-bandwidth/yojimbo/commit/50d2ae0) | A zero-payload packet tripped a bufferSize>0 assert in the bit reader (remote DoS) | DoS / crash | Medium | ✓ | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`760ebc2`](https://github.com/mas-bandwidth/yojimbo/commit/760ebc2) | Fragments-per-block used floor division, under-allocating the fragment array by one | Write OOB | Medium | — | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`663acf5`](https://github.com/mas-bandwidth/yojimbo/commit/663acf5) | Packet write size not rounded to a multiple of 8, so the qword flush wrote up to 7 bytes past the buffer | Write OOB | Medium | — | [v1.6.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.6.0) |
+| [`b722e9a`](https://github.com/mas-bandwidth/yojimbo/commit/b722e9a) | Non-zero block fragments read block.messageType uninitialized (only fragment 0 serializes it) | UB | Low | ✓ | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`c27a0dd`](https://github.com/mas-bandwidth/yojimbo/commit/c27a0dd) | Read-path message-array allocation not NULL-checked before use (crash under allocator exhaustion) | DoS / crash | Low | ✓ | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`f73569a`](https://github.com/mas-bandwidth/yojimbo/commit/f73569a) | Placement-new ran on a NULL pointer when allocation failed, before the caller's NULL check | DoS / crash | Low | ✓ | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`da31341`](https://github.com/mas-bandwidth/yojimbo/commit/da31341) | Reassembly-buffer allocation result unchecked; a failed alloc led to a bad store | DoS / crash | Low | ✓ | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`50d2ae0`](https://github.com/mas-bandwidth/yojimbo/commit/50d2ae0) | A read-path error branch leaked a just-allocated Message | Robustness | Low | ✓ | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`696bf36`](https://github.com/mas-bandwidth/yojimbo/commit/696bf36) | ProcessAck never set acked=true, leaving the duplicate-ack guard assert reachable | Correctness | Low | ✓ | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`26f51aa`](https://github.com/mas-bandwidth/yojimbo/commit/26f51aa) | Send-path allocator-exhaustion leaks in GeneratePacket and channel-data allocation | Robustness | Low | — | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`760ebc2`](https://github.com/mas-bandwidth/yojimbo/commit/760ebc2) | The network simulator's duplicate-packet branch leaked an existing packet buffer | Robustness | Low | — | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`06de25b`](https://github.com/mas-bandwidth/yojimbo/commit/06de25b) | maxPacketFragments used integer division inside ceil(), so ceil() was a no-op | Correctness | Low | — | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`0dfef69`](https://github.com/mas-bandwidth/yojimbo/commit/0dfef69) | Address::Parse used atoi(), silently truncating out-of-range ports | Validation | Low | — | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
 
 ---
 
@@ -142,15 +119,17 @@ that, on every push:
 Fuzzing (five libFuzzer targets on yojimbo alone, including stateful and
 structure-aware targets over the connection deserializer), sanitizers in CI
 (ASan, UBSan, LSan, MemorySanitizer), multi-million-iteration soaks at high
-packet loss before every tag, golden wire-format tests, and review. All of it
-is in the public CI configuration and release notes of each repo — nothing on
-this page is taken on trust.
+packet loss before every tag, golden wire-format tests, and a line-by-line
+security audit. All of it is in the public CI configuration and commit history
+of each repo. This page is built from the commits themselves, so nothing on it
+is taken on trust: click any hash and read the diff.
 
-Fair credit runs both directions: where a bug was reported from outside the
-collaboration, the reporter is named above. And the hand-written code this
-page scrutinizes held up remarkably well for its era — it shipped in real
-games for a decade. The point is not that it was bad. The point is that
-tested is better, and now it is tested.
+Fair credit runs both directions. Where a bug was reported from outside the
+collaboration, the reporter is named in the table (the reliable reassembly
+overflow was reported by @orbisai0security). And the hand-written code this page
+scrutinizes held up remarkably well for its era: it shipped in real games for a
+decade. The point is not that it was bad. The point is that tested is better, and
+now it is tested.
 
 *This work is funded by the [Más Bandwidth Patreon](https://patreon.com/MasBandwidth).
 Supporting it is how more of it happens.*
