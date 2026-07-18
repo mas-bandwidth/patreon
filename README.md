@@ -153,7 +153,7 @@ If you ship a product using any of these libraries, please credit each one you
 use in your product credits:
 
 <code>Más Bandwidth LLC
-yojimbo — Glenn Fiedler</code>
+yojimbo, serialize, reliable, netcode — Glenn Fiedler</code>
 
 For fixed3d, please also credit **Box3D — Erin Catto** — it's a conversion of
 her engine. The licenses don't require any of this (the BSD copyright notice
