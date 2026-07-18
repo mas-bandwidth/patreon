@@ -48,10 +48,10 @@ MIT/BSD, used in shipped games. *Star counts as of July 2026 — they only go up
 
 | Library | What it does | Latest | ★ |
 |---|---|---|---|
-| **[yojimbo](https://github.com/mas-bandwidth/yojimbo)** | Client/server network protocol for games — encrypted, dedicated-server ready | v1.6.3 | ~2.7k |
-| **[netcode](https://github.com/mas-bandwidth/netcode)** | Secure client/server connection over UDP (connect tokens, encryption) | v1.3.5 | ~2.6k |
-| **[reliable](https://github.com/mas-bandwidth/reliable)** | Reliable-ordered messages and acks over UDP | v1.3.4 | ~650 |
-| **[serialize](https://github.com/mas-bandwidth/serialize)** | Bitpacking and serialization — one unified read/write path | v1.4.3 | ~130 |
+| **[yojimbo](https://github.com/mas-bandwidth/yojimbo)** | Client/server network protocol for games — encrypted, dedicated-server ready | v1.7.0 | ~2.7k |
+| **[netcode](https://github.com/mas-bandwidth/netcode)** | Secure client/server connection over UDP (connect tokens, encryption) | v1.4.0 | ~2.6k |
+| **[reliable](https://github.com/mas-bandwidth/reliable)** | Reliable-ordered messages and acks over UDP | v1.3.5 | ~650 |
+| **[serialize](https://github.com/mas-bandwidth/serialize)** | Bitpacking and serialization — one unified read/write path | v1.4.4 | ~130 |
 | **[fixed3d](https://github.com/mas-bandwidth/fixed3d)** | Cross-platform **deterministic** fixed-point physics | v1.3.0 | new |
 
 **Ports to other languages** (so the protocols aren't C-only): Go and Rust
