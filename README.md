@@ -42,8 +42,23 @@ ports of netcode, reliable, and serialize —
 [serialize.go](https://github.com/mas-bandwidth/serialize.go),
 [serialize.rs](https://github.com/mas-bandwidth/serialize.rs).
 
-**Packaging** so people can just install them: Homebrew, vcpkg, Debian, and the
-BSD ports trees.
+## Getting the libraries into every package manager
+
+Part of the work nobody sees: getting these libraries into the package managers
+so people can just `install` them instead of vendoring source. Each ecosystem
+has its own submission process, maintainers, and review — this is the ongoing
+push. *Status as of July 2026; the links are the live source of truth.*
+
+| Package manager | Status | Where it stands |
+|---|---|---|
+| **Homebrew** | ✅ **Shipped** | `serialize` and `libyojimbo` merged into homebrew-core (PRs [#292317](https://github.com/Homebrew/homebrew-core/pull/292317), [#292681](https://github.com/Homebrew/homebrew-core/pull/292681)). Also a tap: [mas-bandwidth/homebrew-tap](https://github.com/mas-bandwidth/homebrew-tap). |
+| **vcpkg** | 🔄 **In review** | All four libraries in one PR ([microsoft/vcpkg#52858](https://github.com/microsoft/vcpkg/pull/52858)) — CI green, working through maintainer review. |
+| **Debian** | 🔄 **In progress** | ITP/RFS filed and uploaded via mentors.debian.net; awaiting a sponsoring Debian Developer to push to unstable. |
+| **FreeBSD** | 🔄 **In review** | Four port submissions filed and assigned to a committer (bugs [296779–296782](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=296779)). |
+| **OpenBSD** | 🔄 **In progress** | `[NEW]` port submission on the ports@ mailing list, awaiting a committer. |
+
+Homebrew is done; the rest are moving through their review pipelines. Progress
+shows up in the monthly [ledger](https://github.com/mas-bandwidth/open-ledger).
 
 Roughly **6,000 GitHub stars** across the core libraries, and a steady stream of
 releases — the [open ledger](https://github.com/mas-bandwidth/open-ledger)
