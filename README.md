@@ -82,10 +82,26 @@ Roughly **6,000 GitHub stars** across the core libraries, and a steady stream of
 releases — the [open ledger](https://github.com/mas-bandwidth/open-ledger)
 tracks each month's work with commit ranges you can verify.
 
+## The craft, plainly
+
 These days the open source happens as a disclosed collaboration between Glenn
-and an AI assistant. The code review, the tests, the wire-compatibility checks —
-real engineering, in the open. The token cost of that collaboration is a line
-item in the ledger like everything else.
+and an AI assistant. Two promises, so nobody has to wonder:
+
+**Glenn writes his own articles. Always.** Every word at gafferongames.com and
+mas-bandwidth.com is his — no AI, ever. If you read an article, he wrote it.
+
+**AI-assisted code gets more care than the hand-written code did, not less.**
+That's a claim you can check, not take on faith: this year's collaboration put
+five fuzz targets over every untrusted parser in yojimbo, ran
+multi-million-iteration sanitizer soaks before every release, and found real
+bugs in code that had shipped in real games for close to a decade — including
+a remotely reachable heap overflow present in every yojimbo release since
+2019. Every fix has a regression test. The token cost of the collaboration is
+a line item in the [ledger](https://github.com/mas-bandwidth/open-ledger)
+like everything else.
+
+**[The full list of bugs found and fixed with the help of AI →](BUGS.md)**
+If you are using older versions of the libraries, upgrade now.
 
 ## The tiers
 
@@ -133,8 +149,15 @@ you:
 | **netcode**, **reliable**, or **serialize** standalone | just that library |
 | **fixed3d** | fixed3d — Glenn Fiedler, plus **Box3D — Erin Catto** |
 
+**New libraries ship under the [Más Bandwidth Source License (MBSL)](MBSL.md)**
+— BSD 3-Clause plus one clause: the credit above becomes part of the license.
+The existing libraries keep their BSD-3/MIT licenses unchanged, forever; for
+them the credit is an official request and the expected standard.
+
 ## The lines that don't move
 
-- The articles stay free. The libraries stay MIT/BSD.
+- The articles stay free. The existing libraries stay MIT/BSD — forever.
+  (New libraries may ship under the [MBSL](MBSL.md): source open, free to
+  use, credit required.)
 - Glenn always writes his own articles — never AI-ghostwritten.
 - The work funded here is public. The transparency is the product.
