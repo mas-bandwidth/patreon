@@ -110,6 +110,20 @@ Direct sponsors are credited, with their consent, in
 Larger sponsorships are arranged directly with Más Bandwidth LLC
 (glenn@mas-bandwidth.com), off Patreon.
 
+## Crediting
+
+If you ship a product using any of these libraries, please credit each one you
+use in your product credits:
+
+> **Más Bandwidth LLC**
+> yojimbo — Glenn Fiedler
+
+For fixed3d, please also credit **Box3D — Erin Catto** — it's a conversion of
+her engine. The licenses don't require any of this (the BSD copyright notice
+in your distribution is the only legal requirement, and that stands). The
+credits listing is an official request, made here and in each library's
+README. Fair credit keeps open source honest.
+
 ## The lines that don't move
 
 - The articles stay free. The libraries stay MIT/BSD.
