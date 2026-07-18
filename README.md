@@ -2,29 +2,57 @@
 
 *[patreon.com/MasBandwidth](https://patreon.com/MasBandwidth)*
 
-This repo is the public reference for the Más Bandwidth Patreon — what it funds,
-how it works, and the transparency behind it. The Patreon page links here for the
-full picture; the monthly numbers live in the open ledger.
+**Creating open source game networking code, and the articles that explain it.**
 
-## What it is
+For twenty years I've written about how multiplayer games work and given the
+code away. The articles are free. The libraries are MIT/BSD and running in real
+games right now. None of that is changing. This Patreon supports the continued
+work — and every month an open ledger shows exactly where the money goes.
 
-Creating open source game networking code, and the articles that explain it.
+This repo is the public reference for what the Patreon funds. The monthly books
+live in **[open-ledger](https://github.com/mas-bandwidth/open-ledger)**.
 
-For twenty years the articles at [gafferongames.com](https://gafferongames.com)
-have been free, and the libraries — netcode, reliable, serialize, yojimbo — are
-MIT/BSD and running in real games. None of that changes. This Patreon funds the
-continued work; support is optional, and everything stays free and open.
+## The articles
 
-## Where the money goes
+- **[gafferongames.com](https://gafferongames.com)** — twenty years of articles
+  on game networking, physics, and how multiplayer actually works. Free, and
+  staying free.
+- **[mas-bandwidth.com](https://mas-bandwidth.com)** — where the new writing
+  lives.
 
-- New articles, and original research to write them from.
-- Maintaining the open source libraries under
-  [github.com/mas-bandwidth](https://github.com/mas-bandwidth).
-- Tokens to run the disclosed AI collaborator that works on the open source code.
+## The work so far — the open source
 
-Every month, an **open ledger** shows exactly what got done and what it cost —
-including token spend, broken out: **[github.com/mas-bandwidth/open-ledger](https://github.com/mas-bandwidth/open-ledger)**.
-The books are public even to non-patrons. You can check the math.
+The reference libraries under [github.com/mas-bandwidth](https://github.com/mas-bandwidth),
+MIT/BSD, used in shipped games. *Star counts as of July 2026 — they only go up.*
+
+| Library | What it does | Latest | ★ |
+|---|---|---|---|
+| **[yojimbo](https://github.com/mas-bandwidth/yojimbo)** | Client/server network protocol for games — encrypted, dedicated-server ready | v1.6.3 | ~2.7k |
+| **[netcode](https://github.com/mas-bandwidth/netcode)** | Secure client/server connection over UDP (connect tokens, encryption) | v1.3.5 | ~2.6k |
+| **[reliable](https://github.com/mas-bandwidth/reliable)** | Reliable-ordered messages and acks over UDP | v1.3.4 | ~650 |
+| **[serialize](https://github.com/mas-bandwidth/serialize)** | Bitpacking and serialization — one unified read/write path | v1.4.3 | ~130 |
+| **[fixed3d](https://github.com/mas-bandwidth/fixed3d)** | Cross-platform **deterministic** fixed-point physics | v1.3.0 | new |
+
+**Ports to other languages** (so the protocols aren't C-only): Go and Rust
+ports of netcode, reliable, and serialize —
+[netcode.go](https://github.com/mas-bandwidth/netcode.go),
+[netcode.rs](https://github.com/mas-bandwidth/netcode.rs),
+[reliable.go](https://github.com/mas-bandwidth/reliable.go),
+[reliable.rs](https://github.com/mas-bandwidth/reliable.rs),
+[serialize.go](https://github.com/mas-bandwidth/serialize.go),
+[serialize.rs](https://github.com/mas-bandwidth/serialize.rs).
+
+**Packaging** so people can just install them: Homebrew, vcpkg, Debian, and the
+BSD ports trees.
+
+Roughly **6,000 GitHub stars** across the core libraries, and a steady stream of
+releases — the [open ledger](https://github.com/mas-bandwidth/open-ledger)
+tracks each month's work with commit ranges you can verify.
+
+These days the open source happens as a disclosed collaboration between Glenn
+and an AI assistant. The code review, the tests, the wire-compatibility checks —
+real engineering, in the open. The token cost of that collaboration is a line
+item in the ledger like everything else.
 
 ## The tiers
 
@@ -34,9 +62,9 @@ The books are public even to non-patrons. You can check the math.
 | **Thanks** | $1 | For twenty years of free articles. |
 | **Supporter** | $5 | Keeps the articles and libraries funded. |
 | **Ledger** | $10 | The full itemized monthly books. |
-| **Workshop** | $25 | Early draft access + office hours (no treadmill). |
+| **Workshop** | $25 | Early draft access + office hours. No treadmill. |
 | **Patron** | $50 | For those who want the work to exist and can say so. |
-| **Commercial** | $100 | If you make money on the libraries, this is how you give back. |
+| **Commercial** | $100 | Making money on the libraries? This is how you give back. |
 | **Sponsor** | $15,000 | Fund the work directly and help steer priorities — email first. |
 
 *Scope: everything funded here is open source under github.com/mas-bandwidth,
@@ -44,13 +72,13 @@ plus the articles. Nothing private, nothing from other organizations.*
 
 ## Sponsors
 
-Direct sponsors are credited (with their consent) in the open ledger's
+Direct sponsors are credited, with their consent, in
 **[SPONSORS.md](https://github.com/mas-bandwidth/open-ledger/blob/main/SPONSORS.md)**.
-Sponsorships of $25k+/month are arranged directly with Más Bandwidth LLC
-(email glenn@mas-bandwidth.com), off Patreon.
+Larger sponsorships are arranged directly with Más Bandwidth LLC
+(glenn@mas-bandwidth.com), off Patreon.
 
 ## The lines that don't move
 
 - The articles stay free. The libraries stay MIT/BSD.
 - Glenn always writes his own articles — never AI-ghostwritten.
-- The work funded here is public; the transparency is the product.
+- The work funded here is public. The transparency is the product.
