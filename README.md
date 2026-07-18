@@ -9,8 +9,8 @@
 >
 > | Library | Upgrade | What it fixes |
 > |---|---|---|
-> | **yojimbo** | [→ latest release](https://github.com/mas-bandwidth/yojimbo/releases/latest) | remote heap overflow, wire-reachable asserts, union misread (fixed in v1.5.0) |
-> | **netcode** | [→ latest release](https://github.com/mas-bandwidth/netcode/releases/latest) | replay-protection overflow, memory-safety hardening |
+> | **yojimbo** | [→ latest release](https://github.com/mas-bandwidth/yojimbo/releases/latest) | remote heap overflow, wire-reachable asserts, union misread (v1.5.0); AEAD nonce-reuse on restart (v1.7.0) |
+> | **netcode** | [→ latest release](https://github.com/mas-bandwidth/netcode/releases/latest) | AEAD nonce-reuse on server restart (v1.4.0), replay-protection overflow, memory-safety hardening |
 > | **reliable** | [→ latest release](https://github.com/mas-bandwidth/reliable/releases/latest) | read-buffer over-read, integer overflow |
 > | **serialize** | [→ latest release](https://github.com/mas-bandwidth/serialize/releases/latest) | fuzz-hardened, wire format pinned on every platform |
 >

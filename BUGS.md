@@ -18,8 +18,8 @@ regression test.
 
 | Library | Upgrade to | Why |
 |---|---|---|
-| **yojimbo** | v1.5.0 or later (latest is best) | remote heap overflow, wire-reachable asserts, union misread — all pre-1.5.0 versions affected |
-| **netcode** | v1.3.0 or later | replay-protection integer overflow, Debug-vs-Release memory-safety gap |
+| **yojimbo** | **v1.7.0** or later | remote heap overflow, wire-reachable asserts, union misread (v1.5.0); AEAD nonce-reuse on restart via vendored netcode (v1.7.0) |
+| **netcode** | **v1.4.0** or later | AEAD nonce-reuse on server restart (v1.4.0), replay-protection overflow, Debug-vs-Release memory-safety gap |
 | **reliable** | v1.3.2 or later | fragment-reassembly integer overflow |
 | **serialize** | v1.4.3 or later | fuzz-verified + golden wire format pinned on every platform |
 
@@ -73,6 +73,17 @@ a 5.5-million-iteration ASan/UBSan soak at high packet loss:
   ([v1.6.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.6.0)) — *correctness*
 
 ## netcode
+
+- **AEAD nonce reuse across server restart** — the server's global packet
+  sequence (connection-challenge and denied packets) was seeded only in
+  `netcode_server_create` and reset to zero by `netcode_server_stop`, so a
+  stopped-and-restarted server re-encrypted global packets at sequence 0, 1,
+  2 … under the same server→client key it uses for per-client packets: the
+  same key and nonce over different plaintexts, which breaks the AEAD
+  guarantees. Found while porting netcode to Rust. Fixed in
+  [v1.4.0](https://github.com/mas-bandwidth/netcode/releases/tag/v1.4.0), and
+  picked up by yojimbo
+  [v1.7.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.7.0). — *security*
 
 Fixed in [v1.3.0](https://github.com/mas-bandwidth/netcode/releases/tag/v1.3.0) (July 2026):
 
