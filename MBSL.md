@@ -1,7 +1,7 @@
 # The Más Bandwidth Source License (MBSL)
 
 The license for new Más Bandwidth libraries: **BSD 3-Clause plus exactly one
-clause** — products that incorporate the library must credit it in their
+clause,** so products that incorporate the library must credit it in their
 credits. Free to use, source open, credit required.
 
 Scope, plainly:
@@ -9,7 +9,7 @@ Scope, plainly:
 - **New libraries** ship under the MBSL from their first release.
 - **Ports with no external contributors** (netcode.go, netcode.rs,
   reliable.go, reliable.rs, serialize.go) carry it too.
-- **The existing libraries keep their licenses unchanged** — yojimbo,
+- **The existing libraries keep their licenses unchanged:** yojimbo,
   netcode, reliable, serialize stay BSD 3-Clause and fixed3d stays MIT,
   forever. Roughly seventy people contributed to those under those terms,
   and that's honored. For them, crediting is an official request and the
@@ -36,7 +36,7 @@ modification, are permitted provided that the following conditions are met:
    credit in the product's credits, or in its documentation if the product
    has no credits, under the heading "Más Bandwidth LLC":
 
-       <library> — Glenn Fiedler
+       <library> by Glenn Fiedler
 
    If this software depends on other Más Bandwidth libraries, the same
    credit must be included for each of them, as listed in this repository's
