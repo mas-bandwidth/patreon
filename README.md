@@ -42,6 +42,24 @@ ports of netcode, reliable, and serialize —
 [serialize.go](https://github.com/mas-bandwidth/serialize.go),
 [serialize.rs](https://github.com/mas-bandwidth/serialize.rs).
 
+## Just landed: fixed3d
+
+The newest library: **[fixed3d](https://github.com/mas-bandwidth/fixed3d)**
+takes Erin Catto's [Box3D](https://github.com/erincatto/box3d) and tears every
+`float` out of the simulation, replacing them with Q48.16 fixed point. Uniform
+1/65536 resolution across a ±1.4×10¹⁴ meter world. Bit-exact on every platform.
+All 22 test suites pass, and the benchmarks are published honestly — about 2×
+slower than float, and the README tells you straight when you should keep
+using Box3D instead.
+
+Here's the part worth noticing: fixed3d went from fork to v1.3.0 in four days
+(created 2026-07-12, [v1.3.0](https://github.com/mas-bandwidth/fixed3d/releases/tag/v1.3.0)
+released 2026-07-16). A full physics engine converted to fixed point, tested,
+benchmarked, and released — that pace is what the AI collaboration makes
+possible. Every commit is public. Check the history yourself.
+
+There will be more work like this. Support the Patreon and you'll see more of it.
+
 ## Getting the libraries into every package manager
 
 Part of the work nobody sees: getting these libraries into the package managers
