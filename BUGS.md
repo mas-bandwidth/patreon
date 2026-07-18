@@ -20,28 +20,28 @@ Every fix has a regression test.
 
 | Library | Upgrade to | The reason |
 |---|---|---|
-| **yojimbo** | [v1.7.0](https://github.com/mas-bandwidth/yojimbo/releases/latest) | remote heap overflow, uninitialized-union reads, wire-reachable DoS asserts; also ships the netcode AEAD fix |
-| **netcode** | [v1.4.0](https://github.com/mas-bandwidth/netcode/releases/latest) | AEAD nonce-reuse on server restart; release-build bounds guards |
-| **reliable** | [v1.3.5](https://github.com/mas-bandwidth/reliable/releases/latest) | read-buffer over-read on the fragment path; reassembly integer overflow |
+| **yojimbo** | [v1.7.0](https://github.com/mas-bandwidth/yojimbo/releases/latest) | remote heap overflow, uninitialized-union reads, wire-reachable DoS asserts, and it also ships the netcode AEAD fix |
+| **netcode** | [v1.4.0](https://github.com/mas-bandwidth/netcode/releases/latest) | AEAD nonce-reuse on server restart, plus release-build bounds guards |
+| **reliable** | [v1.3.5](https://github.com/mas-bandwidth/reliable/releases/latest) | read-buffer over-read on the fragment path, and a reassembly integer overflow |
 | **serialize** | [v1.4.4](https://github.com/mas-bandwidth/serialize/releases/latest) | read-past-end guard, wire-value validation, unaligned-read UB |
 
 *No double counting: each bug is listed once, under the library whose code
 contained it. yojimbo ships netcode, reliable and serialize inside it, so
 upgrading yojimbo picks up their fixes too.*
 
-**Column key.** *Type:* Write OOB / Read OOB = out-of-bounds memory access · UB =
-undefined behavior · DoS / crash = a packet can crash or hang the process ·
-Validation = missing check on untrusted input · Crypto · Correctness ·
-Robustness = leak / allocator-exhaustion hardening. *Wire:* Yes means an attacker
-can trigger it with a crafted packet or untrusted input over the network; No
-means it needs local API misuse or is on the send/write path.
+**Column key.** Type: Write OOB and Read OOB are out-of-bounds memory access. UB
+is undefined behavior. DoS / crash means a packet can crash or hang the process.
+Validation is a missing check on untrusted input. The rest are Crypto,
+Correctness, and Robustness (a leak or allocator-exhaustion hardening). Wire: Yes
+means an attacker can trigger it with a crafted packet or untrusted input over
+the network. No means it needs local API misuse or is on the send or write path.
 
 ---
 
 ## netcode
 
-*7 fixes, 2 reachable from the network. netcode's read path was already solid;
-most of these are defense-in-depth for release builds and integrators.*
+*7 fixes, 2 reachable from the network. netcode's read path was already solid.
+Most of these are defense-in-depth for release builds and integrators.*
 
 | Commit | Bug | Type | Severity | Wire | Fixed in |
 |---|---|---|---|:--:|---|
@@ -69,7 +69,7 @@ most of these are defense-in-depth for release builds and integrators.*
 
 ## serialize
 
-*11 fixes, 7 reachable from the network. No known exploit in shipped code; these
+*11 fixes, 7 reachable from the network. No known exploit in shipped code. These
 are the read-path validation and undefined-behavior fixes the audit and fuzzing
 turned up, on a 2016-era bit-packing library.*
 
@@ -104,7 +104,7 @@ turned up, on a 2016-era bit-packing library.*
 | [`b722e9a`](https://github.com/mas-bandwidth/yojimbo/commit/b722e9a) | Non-zero block fragments read block.messageType uninitialized (only fragment 0 serializes it) | UB | Low | Yes | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
 | [`c27a0dd`](https://github.com/mas-bandwidth/yojimbo/commit/c27a0dd) | Read-path message-array allocation not NULL-checked before use (crash under allocator exhaustion) | DoS / crash | Low | Yes | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
 | [`f73569a`](https://github.com/mas-bandwidth/yojimbo/commit/f73569a) | Placement-new ran on a NULL pointer when allocation failed, before the caller's NULL check | DoS / crash | Low | Yes | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
-| [`da31341`](https://github.com/mas-bandwidth/yojimbo/commit/da31341) | Reassembly-buffer allocation result unchecked; a failed alloc led to a bad store | DoS / crash | Low | Yes | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
+| [`da31341`](https://github.com/mas-bandwidth/yojimbo/commit/da31341) | Reassembly-buffer allocation result unchecked, a failed alloc led to a bad store | DoS / crash | Low | Yes | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
 | [`50d2ae0`](https://github.com/mas-bandwidth/yojimbo/commit/50d2ae0) | A read-path error branch leaked a just-allocated Message | Robustness | Low | Yes | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
 | [`696bf36`](https://github.com/mas-bandwidth/yojimbo/commit/696bf36) | ProcessAck never set acked=true, leaving the duplicate-ack guard assert reachable | Correctness | Low | Yes | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |
 | [`26f51aa`](https://github.com/mas-bandwidth/yojimbo/commit/26f51aa) | Send-path allocator-exhaustion leaks in GeneratePacket and channel-data allocation | Robustness | Low | No | [v1.5.0](https://github.com/mas-bandwidth/yojimbo/releases/tag/v1.5.0) |

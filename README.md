@@ -1,6 +1,6 @@
 # Más Bandwidth on Patreon
 
-> ## ⚠️ Security notice: upgrade your libraries
+> ## Security notice: upgrade your libraries
 >
 > The 2026 hardening work found and fixed real security bugs in code that had
 > shipped for years, including a **remotely reachable heap overflow in yojimbo
@@ -9,13 +9,13 @@
 >
 > | Library | Upgrade | What it fixes |
 > |---|---|---|
-> | **yojimbo** | [→ latest release](https://github.com/mas-bandwidth/yojimbo/releases/latest) | remote heap overflow, wire-reachable asserts, union misread (v1.5.0); AEAD nonce-reuse on restart (v1.7.0) |
-> | **netcode** | [→ latest release](https://github.com/mas-bandwidth/netcode/releases/latest) | AEAD nonce-reuse on server restart (v1.4.0), replay-protection overflow, memory-safety hardening |
-> | **reliable** | [→ latest release](https://github.com/mas-bandwidth/reliable/releases/latest) | read-buffer over-read, integer overflow |
-> | **serialize** | [→ latest release](https://github.com/mas-bandwidth/serialize/releases/latest) | fuzz-hardened, wire format pinned on every platform |
+> | **yojimbo** | [latest release](https://github.com/mas-bandwidth/yojimbo/releases/latest) | remote heap overflow, wire-reachable asserts, union misread (v1.5.0), AEAD nonce-reuse on restart (v1.7.0) |
+> | **netcode** | [latest release](https://github.com/mas-bandwidth/netcode/releases/latest) | AEAD nonce-reuse on server restart (v1.4.0), replay-protection overflow, memory-safety hardening |
+> | **reliable** | [latest release](https://github.com/mas-bandwidth/reliable/releases/latest) | read-buffer over-read, integer overflow |
+> | **serialize** | [latest release](https://github.com/mas-bandwidth/serialize/releases/latest) | fuzz-hardened, wire format pinned on every platform |
 >
 > Every fix has a regression test, and the full honest accounting is here:
-> **[the bugs found and fixed with the help of AI →](BUGS.md)**
+> **[the bugs found and fixed with the help of AI](BUGS.md)**
 
 ---
 
@@ -44,12 +44,12 @@ live in **[open-ledger](https://github.com/mas-bandwidth/open-ledger)**.
 The reference libraries under [github.com/mas-bandwidth](https://github.com/mas-bandwidth),
 MIT/BSD, used in shipped games. *Star counts as of July 2026, and they only go up.*
 
-| Library | What it does | Latest | ★ |
+| Library | What it does | Latest | Stars |
 |---|---|---|---|
-| **[yojimbo](https://github.com/mas-bandwidth/yojimbo)** | Client/server network protocol for games, encrypted and dedicated-server ready | v1.7.0 | ~2.7k |
-| **[netcode](https://github.com/mas-bandwidth/netcode)** | Secure client/server connection over UDP (connect tokens, encryption) | v1.4.0 | ~2.6k |
-| **[reliable](https://github.com/mas-bandwidth/reliable)** | Reliable-ordered messages and acks over UDP | v1.3.5 | ~650 |
-| **[serialize](https://github.com/mas-bandwidth/serialize)** | Bitpacking and serialization, one unified read/write path | v1.4.4 | ~130 |
+| **[yojimbo](https://github.com/mas-bandwidth/yojimbo)** | Client/server network protocol for games, encrypted and dedicated-server ready | v1.7.0 | about 2.7k |
+| **[netcode](https://github.com/mas-bandwidth/netcode)** | Secure client/server connection over UDP (connect tokens, encryption) | v1.4.0 | about 2.6k |
+| **[reliable](https://github.com/mas-bandwidth/reliable)** | Reliable-ordered messages and acks over UDP | v1.3.5 | about 650 |
+| **[serialize](https://github.com/mas-bandwidth/serialize)** | Bitpacking and serialization, one unified read/write path | v1.4.4 | about 130 |
 | **[fixed3d](https://github.com/mas-bandwidth/fixed3d)** | Cross-platform **deterministic** fixed-point physics | v1.3.0 | new |
 
 **Ports to other languages** (so the protocols aren't C-only): Go and Rust
@@ -66,8 +66,8 @@ ports of netcode, reliable, and serialize:
 The newest library: **[fixed3d](https://github.com/mas-bandwidth/fixed3d)**
 takes Erin Catto's [Box3D](https://github.com/erincatto/box3d) and tears every
 `float` out of the simulation, replacing them with Q48.16 fixed point. Uniform
-1/65536 resolution across a ±1.4×10¹⁴ meter world. Bit-exact on every platform.
-All 22 test suites pass, and the benchmarks are published honestly, about 2×
+1/65536 resolution across a vast world, about 140 trillion meters in each direction. Bit-exact on every platform.
+All 22 test suites pass, and the benchmarks are published honestly, about 2x
 slower than float, and the README tells you straight when you should keep
 using Box3D instead.
 
@@ -84,17 +84,17 @@ There will be more work like this. Support the Patreon and you'll see more of it
 Part of the work nobody sees: getting these libraries into the package managers
 so people can just `install` them instead of vendoring source. Each ecosystem
 has its own submission process, maintainers, and review. This is the ongoing
-push. *Status as of July 2026; the links are the live source of truth.*
+push. *Status as of July 2026. The links are the live source of truth.*
 
 | Package manager | Status | Where it stands |
 |---|---|---|
-| **Homebrew** | ✅ **Shipped** | `serialize` and `libyojimbo` merged into homebrew-core (PRs [#292317](https://github.com/Homebrew/homebrew-core/pull/292317), [#292681](https://github.com/Homebrew/homebrew-core/pull/292681)). Also a tap: [mas-bandwidth/homebrew-tap](https://github.com/mas-bandwidth/homebrew-tap). |
-| **vcpkg** | 🔄 **In review** | All four libraries in one PR ([microsoft/vcpkg#52858](https://github.com/microsoft/vcpkg/pull/52858)), CI green, working through maintainer review. |
-| **Debian** | 🔄 **In progress** | ITP/RFS filed and uploaded via mentors.debian.net; awaiting a sponsoring Debian Developer to push to unstable. |
-| **FreeBSD** | 🔄 **In review** | Four port submissions filed and assigned to a committer (bugs [296779–296782](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=296779)). |
-| **OpenBSD** | 🔄 **In progress** | `[NEW]` port submission on the ports@ mailing list, awaiting a committer. |
+| **Homebrew** | **Shipped** | `serialize` and `libyojimbo` merged into homebrew-core (PRs [#292317](https://github.com/Homebrew/homebrew-core/pull/292317), [#292681](https://github.com/Homebrew/homebrew-core/pull/292681)). Also a tap: [mas-bandwidth/homebrew-tap](https://github.com/mas-bandwidth/homebrew-tap). |
+| **vcpkg** | **In review** | All four libraries in one PR ([microsoft/vcpkg#52858](https://github.com/microsoft/vcpkg/pull/52858)), CI green, working through maintainer review. |
+| **Debian** | **In progress** | ITP/RFS filed and uploaded via mentors.debian.net, awaiting a sponsoring Debian Developer to push to unstable. |
+| **FreeBSD** | **In review** | Four port submissions filed and assigned to a committer (bugs [296779-296782](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=296779)). |
+| **OpenBSD** | **In progress** | `[NEW]` port submission on the ports@ mailing list, awaiting a committer. |
 
-Homebrew is done; the rest are moving through their review pipelines. Progress
+Homebrew is done. The rest are moving through their review pipelines. Progress
 shows up in the monthly [ledger](https://github.com/mas-bandwidth/open-ledger).
 
 Roughly **6,000 GitHub stars** across the core libraries, and a steady stream of
@@ -119,18 +119,18 @@ a remotely reachable heap overflow present in every yojimbo release since
 a line item in the [ledger](https://github.com/mas-bandwidth/open-ledger)
 like everything else.
 
-**[The full list of bugs found and fixed with the help of AI →](BUGS.md)**
+**[The full list of bugs found and fixed with the help of AI](BUGS.md)**
 If you are using older versions of the libraries, upgrade now.
 
 ## The tiers
 
 | | | |
 |---|---|---|
-| **Free** | $0 | The posts: new articles + the monthly ledger, as they land. |
+| **Free** | $0 | The posts: new articles and the monthly ledger, as they land. |
 | **Thanks** | $1 | For twenty years of free articles. |
 | **Supporter** | $5 | Keeps the articles and libraries funded. |
 | **Ledger** | $10 | The full itemized monthly books. |
-| **Workshop** | $25 | Early draft access + office hours. No treadmill. |
+| **Workshop** | $25 | Early draft access and office hours. No treadmill. |
 | **Patron** | $50 | For those who want the work to exist and can say so. |
 | **Commercial** | $100 | Making money on the libraries? This is how you give back. |
 | **Sponsor** | $15,000 | Fund the work directly and help steer priorities. Email first. |
@@ -171,7 +171,7 @@ you:
 
 **New libraries ship under the [Más Bandwidth Source License (MBSL)](MBSL.md).**
 It is BSD 3-Clause plus one clause: the credit above becomes part of the license.
-The existing libraries keep their BSD-3/MIT licenses unchanged, forever; for
+The existing libraries keep their BSD-3/MIT licenses unchanged, forever. For
 them the credit is an official request and the expected standard.
 
 ## The lines that don't move
