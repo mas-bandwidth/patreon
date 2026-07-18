@@ -124,6 +124,15 @@ in your distribution is the only legal requirement, and that stands). The
 credits listing is an official request, made here and in each library's
 README. Fair credit keeps open source honest.
 
+**Credit what you ship.** Some libraries include others — we track this for
+you:
+
+| If you use | Credit |
+|---|---|
+| **yojimbo** | yojimbo, netcode, reliable, serialize — it bundles all four |
+| **netcode**, **reliable**, or **serialize** standalone | just that library |
+| **fixed3d** | fixed3d — Glenn Fiedler, plus **Box3D — Erin Catto** |
+
 ## The lines that don't move
 
 - The articles stay free. The libraries stay MIT/BSD.
