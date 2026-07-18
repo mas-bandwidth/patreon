@@ -19,6 +19,10 @@
 
 *[patreon.com/MasBandwidth](https://patreon.com/MasBandwidth)*
 
+---
+
+## Introduction
+
 **Creating open source game networking code, and the articles that explain it.**
 
 For twenty years I've written about how multiplayer games work and given the
