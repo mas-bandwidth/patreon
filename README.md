@@ -178,7 +178,6 @@ them the credit is an official request and the expected standard.
 ## The lines that don't move
 
 - The articles stay free. The existing libraries stay MIT/BSD — forever.
-  (New libraries may ship under the [MBSL](MBSL.md): source open, free to
-  use, credit required.)
+- New libraries may ship under the [MBSL](MBSL.md).
 - Glenn always writes his own articles — never AI-ghostwritten.
 - The work funded here is public. The transparency is the product.
