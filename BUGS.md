@@ -95,6 +95,12 @@ Fixed in [v1.3.0](https://github.com/mas-bandwidth/netcode/releases/tag/v1.3.0) 
   (external report — credited where credit is due; fixed and shipped by the
   collaboration in
   [v1.3.2](https://github.com/mas-bandwidth/reliable/releases/tag/v1.3.2)). — *security*
+- **Read buffer over-read on the fragment read path** — a crafted incoming
+  fragment could make `reliable_read_fragment_header` read up to
+  `RELIABLE_FRAGMENT_HEADER_BYTES` past the end of the receive buffer: the read
+  pointer was advanced past the fragment header but the *full* packet length was
+  still passed to the packet-header reader. Found by AI review; fixed in
+  [v1.3.0](https://github.com/mas-bandwidth/reliable/releases/tag/v1.3.0). — *memory safety*
 - Hardening in [v1.3.0](https://github.com/mas-bandwidth/reliable/releases/tag/v1.3.0):
   **duplicate packets within the receive window are now detected and dropped**,
   fragments with non-canonical headers are rejected, fragments for
