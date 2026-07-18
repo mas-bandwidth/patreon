@@ -155,7 +155,7 @@ use in your product credits:
 > yojimbo, serialize, reliable, netcode by Glenn Fiedler
 
 For fixed3d, please also credit **Box3D by Erin Catto**. It is a conversion of
-her engine. The licenses don't require any of this (the BSD copyright notice
+his engine. The licenses don't require any of this (the BSD copyright notice
 in your distribution is the only legal requirement, and that stands). The
 credits listing is an official request, made here and in each library's
 README. Fair credit keeps open source honest.
