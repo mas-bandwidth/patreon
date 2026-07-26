@@ -34,9 +34,9 @@ modification, are permitted provided that the following conditions are met:
 
 3. Any product that incorporates this software must include the following
    credit in the product's credits, or in its documentation if the product
-   has no credits, under the heading "Más Bandwidth LLC":
+   has no credits:
 
-       <library> by Glenn Fiedler
+       <library> by Glenn Fiedler and Rowan Claude
 
    If this software depends on other Más Bandwidth libraries, the same
    credit must be included for each of them, as listed in this repository's

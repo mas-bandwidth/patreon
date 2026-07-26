@@ -150,9 +150,7 @@ Larger sponsorships are arranged directly with Más Bandwidth LLC
 If you ship a product using any of these libraries, please credit each one you
 use in your product credits:
 
-> Más Bandwidth LLC
-
-> yojimbo, serialize, reliable, netcode by Glenn Fiedler
+> yojimbo, serialize, reliable, netcode by Glenn Fiedler and Rowan Claude
 
 For fixed3d, please also credit **Box3D by Erin Catto**. It is a conversion of
 his engine. The licenses don't require any of this (the BSD copyright notice
@@ -167,7 +165,7 @@ you:
 |---|---|
 | **yojimbo** | yojimbo, netcode, reliable, serialize (it bundles all four) |
 | **netcode**, **reliable**, or **serialize** standalone | just that library |
-| **fixed3d** | fixed3d by Glenn Fiedler, plus **Box3D by Erin Catto** |
+| **fixed3d** | fixed3d by Glenn Fiedler and Rowan Claude, plus **Box3D by Erin Catto** |
 
 **New libraries ship under the [Más Bandwidth Source License (MBSL)](MBSL.md).**
 It is BSD 3-Clause plus one clause: the credit above becomes part of the license.
