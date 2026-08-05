@@ -84,20 +84,22 @@ There will be more work like this. Support the Patreon and you'll see more of it
 Part of the work nobody sees: getting these libraries into the package managers
 so people can just `install` them instead of vendoring source. Each ecosystem
 has its own submission process, maintainers, and review. This is the ongoing
-push. *Status as of July 2026. The links are the live source of truth.*
+push. *Status as of August 2026. The links are the live source of truth.*
 
 | Package manager | Status | Where it stands |
 |---|---|---|
-| **Homebrew** | **Shipped** | `serialize` and `libyojimbo` merged into homebrew-core (PRs [#292317](https://github.com/Homebrew/homebrew-core/pull/292317), [#292681](https://github.com/Homebrew/homebrew-core/pull/292681)). Also a tap: [mas-bandwidth/homebrew-tap](https://github.com/mas-bandwidth/homebrew-tap). |
-| **vcpkg** | **In review** | All four libraries in one PR ([microsoft/vcpkg#52858](https://github.com/microsoft/vcpkg/pull/52858)), CI green, working through maintainer review. |
-| **Debian** | **In progress** | ITP/RFS filed and uploaded via mentors.debian.net, awaiting a sponsoring Debian Developer to push to unstable. |
-| **FreeBSD** | **In review** | 1 of 4 ports committed (bug [296779](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=296779) closed FIXED); the other three (296780-296782) assigned to a committer and pending. |
-| **OpenBSD** | **In progress** | `[NEW]` port submission on the ports@ mailing list, awaiting a committer. |
+| **Homebrew** | **Shipped** | `serialize` and `libyojimbo` merged into homebrew-core (PRs [#292317](https://github.com/Homebrew/homebrew-core/pull/292317), [#292681](https://github.com/Homebrew/homebrew-core/pull/292681)); all four formulae now track the latest releases. Also a tap: [mas-bandwidth/homebrew-tap](https://github.com/mas-bandwidth/homebrew-tap). |
+| **apt (Debian/Ubuntu)** | **Shipped** | Our own apt repository serves `.deb` packages for all four libraries: [mas-bandwidth/apt](https://github.com/mas-bandwidth/apt). |
+| **vcpkg** | **In review** | All four libraries in one PR ([microsoft/vcpkg#52858](https://github.com/microsoft/vcpkg/pull/52858)), refreshed to the latest releases, working through maintainer review. |
+| **Conan** | **In review** | Four PRs open on conan-center-index: yojimbo updated to 1.8.2 ([#30676](https://github.com/conan-io/conan-center-index/pull/30676)), plus new recipes for serialize ([#30728](https://github.com/conan-io/conan-center-index/pull/30728)), reliable ([#30729](https://github.com/conan-io/conan-center-index/pull/30729)) and netcode ([#30730](https://github.com/conan-io/conan-center-index/pull/30730)). |
+| **FreeBSD** | **Landed; updates in review** | All four ports accepted (bugs [296779](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=296779)–[296782](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=296782) closed FIXED). Updates to the latest releases are open as [freebsd-ports#573](https://github.com/freebsd/freebsd-ports/pull/573)–[#576](https://github.com/freebsd/freebsd-ports/pull/576). |
+| **Debian** | **In progress** | ITP/RFS filed via mentors.debian.net; reviewer feedback addressed and functional autopkgtests added; awaiting a sponsoring Debian Developer to push to unstable. |
+| **OpenBSD** | **In progress** | `[NEW]` port submission on the ports@ mailing list; refreshed ports at the latest releases prepared for a re-roll. |
 
-Homebrew is done. The rest are moving through their review pipelines. Progress
-shows up in the monthly [ledger](https://github.com/mas-bandwidth/open-ledger).
+Homebrew and apt are done. The rest are moving through their review pipelines.
+Progress shows up in the monthly [ledger](https://github.com/mas-bandwidth/open-ledger).
 
-Roughly **6,000 GitHub stars** across the core libraries, and a steady stream of
+Over **6,000 GitHub stars** across the core libraries, and a steady stream of
 releases. The [open ledger](https://github.com/mas-bandwidth/open-ledger)
 tracks each month's work with commit ranges you can verify.
 
