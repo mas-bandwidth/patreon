@@ -69,8 +69,8 @@ language for bitpacked serialization: types, enums, flags, unions, constants
 and bitpacking, compiled to C, C++, C#, Go, Rust and JavaScript. Write the
 schema once and every language reads and writes the same bytes. The compiler
 is also a library with a public API, the generated code is fuzz tested, and
-[v2.0.0](https://github.com/mas-bandwidth/schema/releases) is named what it
-is: production ready.
+[v2.0.0](https://github.com/mas-bandwidth/schema/releases) is production
+ready.
 
 Underneath it, **serialize is six implementations of one wire format**:
 [C++](https://github.com/mas-bandwidth/serialize),
@@ -84,13 +84,8 @@ contract is written down as a normative standard in the C++ repo
 to identical bytes on every platform and architecture. Fixed point and
 128-bit integers ride the same wire.
 
-netcode and reliable have C# ports too:
-[netcode.cs](https://github.com/mas-bandwidth/netcode.cs) and
-[reliable.cs](https://github.com/mas-bandwidth/reliable.cs), each wire
-compatible with its C reference.
-
-**[fixed](https://github.com/mas-bandwidth/fixed)** is the deterministic
-Q48.16 fixed-point math core as its own library: scalar math, vectors,
+**[fixed](https://github.com/mas-bandwidth/fixed)** is a standalone
+deterministic Q48.16 fixed-point math library: scalar math, vectors,
 quaternions, matrices, transforms, and the wide world-position and AABB
 families. fixed3d vendors it at a pinned version, with a vendor-drift CI
 workflow that goes red if the vendored tree ever diverges from the pin.
@@ -129,7 +124,7 @@ push. *Status as of August 2026. The links are the live source of truth.*
 
 | Package manager | Status | Where it stands |
 |---|---|---|
-| **Homebrew** | **Shipped** | `serialize` and `libyojimbo` merged into homebrew-core (PRs [#292317](https://github.com/Homebrew/homebrew-core/pull/292317), [#292681](https://github.com/Homebrew/homebrew-core/pull/292681)); all four formulae now track the latest releases. Also a tap: [mas-bandwidth/homebrew-tap](https://github.com/mas-bandwidth/homebrew-tap). |
+| **Homebrew** | **Shipped** | `serialize` and `libyojimbo` merged into homebrew-core (PRs [#292317](https://github.com/Homebrew/homebrew-core/pull/292317), [#292681](https://github.com/Homebrew/homebrew-core/pull/292681)), with formulae for all four libraries. Also a tap: [mas-bandwidth/homebrew-tap](https://github.com/mas-bandwidth/homebrew-tap). |
 | **apt (Debian/Ubuntu)** | **Shipped** | Our own apt repository serves `.deb` packages for all four libraries: [mas-bandwidth/apt](https://github.com/mas-bandwidth/apt). |
 | **vcpkg** | **Shipped** | All four libraries merged in one PR ([microsoft/vcpkg#52858](https://github.com/microsoft/vcpkg/pull/52858), merged 2026-08-10), as the ports `mas-bandwidth-serialize`, `mas-bandwidth-reliable`, `mas-bandwidth-netcode` and `mas-bandwidth-yojimbo`. |
 | **Conan** | **In review** | The netcode recipe is merged ([#30730](https://github.com/conan-io/conan-center-index/pull/30730)). Three PRs remain open on conan-center-index: yojimbo ([#30676](https://github.com/conan-io/conan-center-index/pull/30676)), serialize ([#30728](https://github.com/conan-io/conan-center-index/pull/30728)) and reliable ([#30729](https://github.com/conan-io/conan-center-index/pull/30729)). |
