@@ -52,17 +52,17 @@ MIT/BSD, used in shipped games. *Star counts as of August 2026, and they only go
 | **[serialize](https://github.com/mas-bandwidth/serialize)** | Bitpacking and serialization, one unified read/write path | v1.15.0 | about 130 |
 | **[fixed3d](https://github.com/mas-bandwidth/fixed3d)** | Cross-platform **deterministic** fixed-point physics | v1.4.0 | new |
 
-**Ports to other languages** (so the protocols aren't C-only): netcode and
-reliable have Go, Rust and C# ports:
+**Ports to other languages** (so the protocols aren't C-only): Go and Rust
+ports of netcode, reliable, and serialize:
 [netcode.go](https://github.com/mas-bandwidth/netcode.go),
 [netcode.rs](https://github.com/mas-bandwidth/netcode.rs),
-[netcode.cs](https://github.com/mas-bandwidth/netcode.cs),
 [reliable.go](https://github.com/mas-bandwidth/reliable.go),
 [reliable.rs](https://github.com/mas-bandwidth/reliable.rs),
-[reliable.cs](https://github.com/mas-bandwidth/reliable.cs).
-And serialize is now a whole family of six, below.
+[serialize.go](https://github.com/mas-bandwidth/serialize.go),
+[serialize.rs](https://github.com/mas-bandwidth/serialize.rs).
+The serialize family covers six languages in all, below.
 
-## Just landed: schema and the serialize family
+## What just landed
 
 **[schema](https://github.com/mas-bandwidth/schema)** is a compiled schema
 language for bitpacked serialization: types, enums, flags, unions, constants
@@ -72,7 +72,7 @@ is also a library with a public API, the generated code is fuzz tested, and
 [v2.0.0](https://github.com/mas-bandwidth/schema/releases) is named what it
 is: production ready.
 
-Underneath it, **serialize is now six implementations of one wire format**:
+Underneath it, **serialize is six implementations of one wire format**:
 [C++](https://github.com/mas-bandwidth/serialize),
 [C](https://github.com/mas-bandwidth/serialize.c),
 [C#](https://github.com/mas-bandwidth/serialize.cs),
@@ -83,6 +83,11 @@ contract is written down as a normative standard in the C++ repo
 (STANDARD.md), and byte-pinned conformance vectors hold every implementation
 to identical bytes on every platform and architecture. Fixed point and
 128-bit integers ride the same wire.
+
+netcode and reliable have C# ports too:
+[netcode.cs](https://github.com/mas-bandwidth/netcode.cs) and
+[reliable.cs](https://github.com/mas-bandwidth/reliable.cs), each wire
+compatible with its C reference.
 
 **[fixed](https://github.com/mas-bandwidth/fixed)** is the deterministic
 Q48.16 fixed-point math core as its own library: scalar math, vectors,
@@ -126,7 +131,7 @@ push. *Status as of August 2026. The links are the live source of truth.*
 |---|---|---|
 | **Homebrew** | **Shipped** | `serialize` and `libyojimbo` merged into homebrew-core (PRs [#292317](https://github.com/Homebrew/homebrew-core/pull/292317), [#292681](https://github.com/Homebrew/homebrew-core/pull/292681)); all four formulae now track the latest releases. Also a tap: [mas-bandwidth/homebrew-tap](https://github.com/mas-bandwidth/homebrew-tap). |
 | **apt (Debian/Ubuntu)** | **Shipped** | Our own apt repository serves `.deb` packages for all four libraries: [mas-bandwidth/apt](https://github.com/mas-bandwidth/apt). |
-| **vcpkg** | **Shipped** | All four libraries merged in one PR ([microsoft/vcpkg#52858](https://github.com/microsoft/vcpkg/pull/52858), merged 2026-08-10). `vcpkg install` works for serialize, reliable, netcode and yojimbo. |
+| **vcpkg** | **Shipped** | All four libraries merged in one PR ([microsoft/vcpkg#52858](https://github.com/microsoft/vcpkg/pull/52858), merged 2026-08-10), as the ports `mas-bandwidth-serialize`, `mas-bandwidth-reliable`, `mas-bandwidth-netcode` and `mas-bandwidth-yojimbo`. |
 | **Conan** | **In review** | The netcode recipe is merged ([#30730](https://github.com/conan-io/conan-center-index/pull/30730)). Three PRs remain open on conan-center-index: yojimbo ([#30676](https://github.com/conan-io/conan-center-index/pull/30676)), serialize ([#30728](https://github.com/conan-io/conan-center-index/pull/30728)) and reliable ([#30729](https://github.com/conan-io/conan-center-index/pull/30729)). |
 | **FreeBSD** | **Landed; updates in review** | All four ports accepted (bugs [296779](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=296779)-[296782](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=296782) closed FIXED). netcode is updated to 1.4.3 in the ports tree. Updates for yojimbo, reliable and serialize are open as [freebsd-ports#574](https://github.com/freebsd/freebsd-ports/pull/574)-[#576](https://github.com/freebsd/freebsd-ports/pull/576). |
 | **Debian** | **In progress** | ITP/RFS filed via mentors.debian.net; reviewer feedback addressed and functional autopkgtests added; awaiting a sponsoring Debian Developer to push to unstable. |
