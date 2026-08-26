@@ -1,5 +1,7 @@
 # Más Bandwidth on Patreon
 
+If this work matters to you, please support it: **[Become a supporter](https://www.patreon.com/MasBandwidth/membership)**
+
 > ## Security notice: upgrade your libraries
 >
 > The 2026 hardening work found and fixed real security bugs in code that had
