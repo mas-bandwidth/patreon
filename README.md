@@ -24,8 +24,8 @@
 **Creating open source game networking code, and the articles that explain it.**
 
 For twenty years I've written about how multiplayer games work and given the
-code away. The articles are free. The libraries are MIT/BSD and running in real
-games right now. None of that is changing. This Patreon supports the continued
+code away. The articles are free. The libraries are open source and running in
+real games right now. This Patreon supports the continued
 work, and every month an open ledger shows exactly where the money goes.
 
 This repo is the public reference for what the Patreon funds. The monthly books
@@ -42,7 +42,8 @@ live in **[open-ledger](https://github.com/mas-bandwidth/open-ledger)**.
 ## The open source work so far
 
 The reference libraries under [github.com/mas-bandwidth](https://github.com/mas-bandwidth),
-MIT/BSD, used in shipped games. *Star counts as of August 2026, and they only go up.*
+open source, used in shipped games. Each library states its license in its own
+repository. *Star counts as of August 2026, and they only go up.*
 
 | Library | What it does | Latest | Stars |
 |---|---|---|---|
@@ -192,10 +193,9 @@ use in your product credits:
 > yojimbo, serialize, reliable, netcode by Glenn Fiedler and Rowan Claude
 
 For fixed3d, please also credit **Box3D by Erin Catto**. It is a conversion of
-his engine. The licenses don't require any of this (the BSD copyright notice
-in your distribution is the only legal requirement, and that stands). The
-credits listing is an official request, made here and in each library's
-README. Fair credit keeps open source honest.
+his engine. The licenses don't require any of this. The credits listing is an
+official request, made here and in each library's README. Fair credit keeps
+open source honest.
 
 **Credit what you ship.** Some libraries include others, so we track this for
 you:
@@ -206,14 +206,8 @@ you:
 | **netcode**, **reliable**, or **serialize** standalone | just that library |
 | **fixed3d** | fixed3d by Glenn Fiedler and Rowan Claude, plus **Box3D by Erin Catto** |
 
-**New libraries ship under the [Más Bandwidth Source License (MBSL)](MBSL.md).**
-It is BSD 3-Clause plus one clause: the credit above becomes part of the license.
-The existing libraries keep their BSD-3/MIT licenses unchanged, forever. For
-them the credit is an official request and the expected standard.
-
 ## The lines that don't move
 
-- The articles stay free. The existing libraries stay MIT/BSD, forever.
-- New libraries may ship under the [MBSL](MBSL.md).
+- The articles stay free.
 - Glenn always writes his own articles, never AI-ghostwritten.
 - The work funded here is public. The transparency is the product.
