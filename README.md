@@ -42,15 +42,15 @@ live in **[open-ledger](https://github.com/mas-bandwidth/open-ledger)**.
 ## The open source work so far
 
 The reference libraries under [github.com/mas-bandwidth](https://github.com/mas-bandwidth),
-MIT/BSD, used in shipped games. *Star counts as of July 2026, and they only go up.*
+MIT/BSD, used in shipped games. *Star counts as of August 2026, and they only go up.*
 
 | Library | What it does | Latest | Stars |
 |---|---|---|---|
-| **[yojimbo](https://github.com/mas-bandwidth/yojimbo)** | Client/server network protocol for games, encrypted and dedicated-server ready | v1.7.0 | about 2.7k |
-| **[netcode](https://github.com/mas-bandwidth/netcode)** | Secure client/server connection over UDP (connect tokens, encryption) | v1.4.0 | about 2.6k |
-| **[reliable](https://github.com/mas-bandwidth/reliable)** | Reliable-ordered messages and acks over UDP | v1.3.5 | about 650 |
-| **[serialize](https://github.com/mas-bandwidth/serialize)** | Bitpacking and serialization, one unified read/write path | v1.4.4 | about 130 |
-| **[fixed3d](https://github.com/mas-bandwidth/fixed3d)** | Cross-platform **deterministic** fixed-point physics | v1.3.0 | new |
+| **[yojimbo](https://github.com/mas-bandwidth/yojimbo)** | Client/server network protocol for games, encrypted and dedicated-server ready | v1.10.1 | about 2.7k |
+| **[netcode](https://github.com/mas-bandwidth/netcode)** | Secure client/server connection over UDP (connect tokens, encryption) | v1.4.3 | about 2.6k |
+| **[reliable](https://github.com/mas-bandwidth/reliable)** | Reliable-ordered messages and acks over UDP | v1.4.0 | about 650 |
+| **[serialize](https://github.com/mas-bandwidth/serialize)** | Bitpacking and serialization, one unified read/write path | v1.15.0 | about 130 |
+| **[fixed3d](https://github.com/mas-bandwidth/fixed3d)** | Cross-platform **deterministic** fixed-point physics | v1.4.0 | new |
 
 **Ports to other languages** (so the protocols aren't C-only): Go and Rust
 ports of netcode, reliable, and serialize:
@@ -60,10 +60,46 @@ ports of netcode, reliable, and serialize:
 [reliable.rs](https://github.com/mas-bandwidth/reliable.rs),
 [serialize.go](https://github.com/mas-bandwidth/serialize.go),
 [serialize.rs](https://github.com/mas-bandwidth/serialize.rs).
+The serialize family covers six languages in all, below.
 
-## Just landed: fixed3d
+## What just landed
 
-The newest library: **[fixed3d](https://github.com/mas-bandwidth/fixed3d)**
+**[schema](https://github.com/mas-bandwidth/schema)** is a compiled schema
+language for bitpacked serialization: types, enums, flags, unions, constants
+and bitpacking, compiled to C, C++, C#, Go, Rust and JavaScript. Write the
+schema once and every language reads and writes the same bytes. The compiler
+is also a library with a public API, the generated code is fuzz tested, and
+[v2.0.0](https://github.com/mas-bandwidth/schema/releases) is production
+ready.
+
+Underneath it, **serialize is six implementations of one wire format**:
+[C++](https://github.com/mas-bandwidth/serialize),
+[C](https://github.com/mas-bandwidth/serialize.c),
+[C#](https://github.com/mas-bandwidth/serialize.cs),
+[Go](https://github.com/mas-bandwidth/serialize.go),
+[Rust](https://github.com/mas-bandwidth/serialize.rs) and
+[JavaScript](https://github.com/mas-bandwidth/serialize.js). The wire
+contract is written down as a normative standard in the C++ repo
+(STANDARD.md), and byte-pinned conformance vectors hold every implementation
+to identical bytes on every platform and architecture. Fixed point and
+128-bit integers ride the same wire.
+
+**[fixed](https://github.com/mas-bandwidth/fixed)** is a standalone
+deterministic Q48.16 fixed-point math library: scalar math, vectors,
+quaternions, matrices, transforms, and the wide world-position and AABB
+families. fixed3d vendors it at a pinned version, with a vendor-drift CI
+workflow that goes red if the vendored tree ever diverges from the pin.
+[v1.4.0](https://github.com/mas-bandwidth/fixed/releases) is production
+ready.
+
+And **[yojimbo v1.10](https://github.com/mas-bandwidth/yojimbo/releases)**
+lets the Adapter carry yojimbo's encrypted datagrams over a transport you
+supply (an ICE/TURN route, a relay, anything with an address), opt-in, without
+touching yojimbo's connection, channel, encryption or fragmentation behavior.
+
+## fixed3d
+
+**[fixed3d](https://github.com/mas-bandwidth/fixed3d)**
 takes Erin Catto's [Box3D](https://github.com/erincatto/box3d) and tears every
 `float` out of the simulation, replacing them with Q48.16 fixed point. Uniform
 1/65536 resolution across a vast world, about 140 trillion meters in each direction. Bit-exact on every platform.
@@ -88,15 +124,16 @@ push. *Status as of August 2026. The links are the live source of truth.*
 
 | Package manager | Status | Where it stands |
 |---|---|---|
-| **Homebrew** | **Shipped** | `serialize` and `libyojimbo` merged into homebrew-core (PRs [#292317](https://github.com/Homebrew/homebrew-core/pull/292317), [#292681](https://github.com/Homebrew/homebrew-core/pull/292681)); all four formulae now track the latest releases. Also a tap: [mas-bandwidth/homebrew-tap](https://github.com/mas-bandwidth/homebrew-tap). |
+| **Homebrew** | **Shipped** | `serialize` and `libyojimbo` merged into homebrew-core (PRs [#292317](https://github.com/Homebrew/homebrew-core/pull/292317), [#292681](https://github.com/Homebrew/homebrew-core/pull/292681)), with formulae for all four libraries. Also a tap: [mas-bandwidth/homebrew-tap](https://github.com/mas-bandwidth/homebrew-tap). |
 | **apt (Debian/Ubuntu)** | **Shipped** | Our own apt repository serves `.deb` packages for all four libraries: [mas-bandwidth/apt](https://github.com/mas-bandwidth/apt). |
-| **vcpkg** | **In review** | All four libraries in one PR ([microsoft/vcpkg#52858](https://github.com/microsoft/vcpkg/pull/52858)), refreshed to the latest releases, working through maintainer review. |
-| **Conan** | **In review** | Four PRs open on conan-center-index: yojimbo updated to 1.8.2 ([#30676](https://github.com/conan-io/conan-center-index/pull/30676)), plus new recipes for serialize ([#30728](https://github.com/conan-io/conan-center-index/pull/30728)), reliable ([#30729](https://github.com/conan-io/conan-center-index/pull/30729)) and netcode ([#30730](https://github.com/conan-io/conan-center-index/pull/30730)). |
-| **FreeBSD** | **Landed; updates in review** | All four ports accepted (bugs [296779](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=296779)–[296782](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=296782) closed FIXED). Updates to the latest releases are open as [freebsd-ports#573](https://github.com/freebsd/freebsd-ports/pull/573)–[#576](https://github.com/freebsd/freebsd-ports/pull/576). |
+| **vcpkg** | **Shipped** | All four libraries merged in one PR ([microsoft/vcpkg#52858](https://github.com/microsoft/vcpkg/pull/52858), merged 2026-08-10), as the ports `mas-bandwidth-serialize`, `mas-bandwidth-reliable`, `mas-bandwidth-netcode` and `mas-bandwidth-yojimbo`. |
+| **Conan** | **In review** | The netcode recipe is merged ([#30730](https://github.com/conan-io/conan-center-index/pull/30730)). Three PRs remain open on conan-center-index: yojimbo ([#30676](https://github.com/conan-io/conan-center-index/pull/30676)), serialize ([#30728](https://github.com/conan-io/conan-center-index/pull/30728)) and reliable ([#30729](https://github.com/conan-io/conan-center-index/pull/30729)). |
+| **FreeBSD** | **Landed; updates in review** | All four ports accepted (bugs [296779](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=296779)-[296782](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=296782) closed FIXED). netcode is updated to 1.4.3 in the ports tree. Updates for yojimbo, reliable and serialize are open as [freebsd-ports#574](https://github.com/freebsd/freebsd-ports/pull/574)-[#576](https://github.com/freebsd/freebsd-ports/pull/576). |
 | **Debian** | **In progress** | ITP/RFS filed via mentors.debian.net; reviewer feedback addressed and functional autopkgtests added; awaiting a sponsoring Debian Developer to push to unstable. |
 | **OpenBSD** | **In progress** | `[NEW]` port submission on the ports@ mailing list; refreshed ports at the latest releases prepared for a re-roll. |
 
-Homebrew and apt are done. The rest are moving through their review pipelines.
+Homebrew, apt and vcpkg are done. The rest are moving through their review
+pipelines.
 Progress shows up in the monthly [ledger](https://github.com/mas-bandwidth/open-ledger).
 
 Over **6,000 GitHub stars** across the core libraries, and a steady stream of
