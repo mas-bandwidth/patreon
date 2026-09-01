@@ -255,7 +255,7 @@ last figure is 131,601,040 tokens, 0.61%.
 
 ### Step 2 — the object store adds nothing, do not spend time on it
 
-`gs://rowan-sydney/sessions` holds **only this bench's own mirrored sessions**. A full pass
+The macbook bench's GCS sessions mirror (bucket name held internally) holds **only this bench's own mirrored sessions**. A full pass
 over the mirror measured 10,315,509,634 tokens across 43,197 turns — a strict subset of the
 21,408,017,663 already published here, not additional data. It contains nothing from any
 other bench. See `rowan-tools#46`. Measure the Studio's own `~/.claude/projects`; that is the
