@@ -20,3 +20,15 @@ these files into `rowan-tools/scratch/` and `go run` them from the repo root. Ru
 needs a `repo-visibility.json` in the output directory, built from real
 `gh repo view <name> --json isPrivate` answers — it is not shipped here, because on this bench
 it is a list of repository names.
+
+`august-merge-benches.go` is the merge that produced the two-bench `../data.csv` on
+2026-09-02: it takes one bench's already-published `data.csv` and the other bench's RAW CSV
+from the analysis pass, re-checks the published side's invariants rather than trusting them,
+refuses a raw input that repeats a tuple, applies the same privacy filter to the raw side
+(open source rows verbatim, private rows collapsed to one `PRIVATE` aggregate per
+`(bench, day)`), refuses to write unless the filtered rows still sum to the raw grand total
+and turn count and no `(bench, day, repo)` tuple collides between the two sides (identical
+duplicates included), then re-reads the file it wrote from disk, refuses unless it sums to
+published plus raw exactly, and prints the per-bench and combined figures and the combined
+per-repository table from that file. The tilde-arm CSV is read only for
+the range figure and never merged. It imports nothing from the workshop; `go run` it anywhere.
