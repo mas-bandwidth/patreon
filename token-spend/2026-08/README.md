@@ -62,18 +62,6 @@ releases by the end of the month. A validating reader, the same forced
 inlining as C++ for a 34 to 49 percent gain on x86 and about three times on
 arm64, and Zig and Odin bindings.
 
-## serialize.cs
-
-The wire in C#, first released August 13, nine releases. Both of C#'s
-rounding modes handled correctly, UTF-16 wide strings, and API-misuse checks
-that compile out of release builds to match the C++ reference.
-
-## serialize.go
-
-Ten releases. Fixed point and 128-bit integers, validating string readers,
-and the family's cross-language range clamp proven with witness bytes on the
-wire.
-
 ## serialize.rs
 
 Twelve releases and a 2.0 line. Reads inline end to end in safe Rust, writes
@@ -85,10 +73,29 @@ serialize-official.
 First released August 17, three releases. The sixth implementation of the
 wire, with a production mode that made it 1.76 times faster.
 
+## serialize.go
+
+Ten releases. Fixed point and 128-bit integers, validating string readers,
+and the family's cross-language range clamp proven with witness bytes on the
+wire.
+
+## serialize.cs
+
+The wire in C#, first released August 13, nine releases. Both of C#'s
+rounding modes handled correctly, UTF-16 wide strings, and API-misuse checks
+that compile out of release builds to match the C++ reference.
+
 ## serialize.dart, serialize.java, serialize.elixir
 
 First releases on August 30. The same wire, native on Dart, on the JVM, and on
 the BEAM, each one byte-identical to the rest of the family.
+
+## netcode
+
+netcode 1.4.4: strict floating-point builds on every target, so the same source
+behaves the same on every compiler. netcode.cs 1.0.0, the first C# release, and
+the Rust port brought current at 1.1.1. Homebrew, apt and vcpkg now ship it,
+and the Conan, FreeBSD, Debian and OpenBSD submissions moved through review.
 
 ## yojimbo
 
@@ -98,15 +105,8 @@ connection, channel or encryption code. Version 1.11 takes the optimized
 serialization core from the serialize work above. The wire now builds strict
 on every target.
 
-## netcode and reliable
+## reliable
 
-netcode 1.4.4 and reliable 1.4.1: strict floating-point builds on every
-target, so the same source behaves the same on every compiler. First C#
-releases of both, netcode.cs 1.0.0 and reliable.cs 1.0.0. The Rust port of
-netcode brought current at 1.1.1, and reliable.rs took the same work in seven
-pull requests without a release yet.
-
-## Package managers
-
-Homebrew, apt and vcpkg now ship all four networking libraries. The Conan,
-FreeBSD, Debian and OpenBSD submissions moved through review.
+reliable 1.4.1: strict floating-point builds on every target. reliable.cs 1.0.0,
+the first C# release, and reliable.rs took the same work in seven pull requests
+without a release yet. Shipping in Homebrew, apt and vcpkg beside the others.
