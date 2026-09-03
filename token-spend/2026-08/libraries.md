@@ -1,6 +1,6 @@
-# September 2026 ledger: what August's tokens bought
+# August 2026 public ledger: what the tokens bought
 
-*Más Bandwidth LLC. Published September 2026. Covers August 2026, both benches.*
+*Más Bandwidth LLC. Covers August 2026, both benches. Published early September, as each month's ledger will be.*
 
 The [full August accounting](README.md) attributes every token on both
 benches to a repository. This page is the part patrons are paying for: the
