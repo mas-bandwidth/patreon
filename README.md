@@ -164,6 +164,13 @@ like everything else.
 **[The full list of bugs found and fixed with the help of AI](BUGS.md)**
 If you are using older versions of the libraries, upgrade now.
 
+## August 2026 public ledger
+
+August's token spend across the networking and serialization libraries, and
+what the work was: **[What the tokens bought](token-spend/2026-08/libraries.md)**.
+The full accounting for both benches, every repository, with the method and
+the data, is [here](token-spend/2026-08/README.md).
+
 ## The tiers
 
 | | | |
