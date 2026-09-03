@@ -1,18 +1,7 @@
-# August 2026 public ledger
+# August 2026
 
-*Más Bandwidth LLC. Covers August 2026. Published early September, as each month's ledger will be.*
-
-The open source work funded here is the networking and serialization
-libraries under [github.com/mas-bandwidth](https://github.com/mas-bandwidth).
-This page is the August accounting for them: what the AI collaboration's
-tokens went to, by repository, and what the work was. Everything named here
-is a public commit, a public tag, or a public pull request, and you can read
-any of it.
-
-## Where the tokens went
-
-3,302,778,804 tokens across the five library families in August. Taking that
-as one hundred percent:
+Where the AI tokens went across the open source libraries in August, and what
+got done in each one.
 
 | Repository | Tokens | Share |
 |---|---:|---:|
@@ -35,98 +24,83 @@ as one hundred percent:
 | reliable.rs | 41,884 | 0.00% |
 | **total** | **3,302,778,804** | **100%** |
 
-A token is attributed to a repository by the files the work touched. The
-per-day numbers behind this table are in [`data.csv`](data.csv).
+## schema
 
-## What the work was
+Schema went from its first release to production ready to nine languages in
+one month. Version 1.0.0 shipped on August 11: a language for declaring a
+game's constants, enums and data types, compiled to bit-packed reading and
+writing code in C++, C#, Go and Rust. Fixed point and 128-bit integers joined
+the language, with an unsigned fixed-point type beside them, and a ranged
+field costs exactly the bits its range needs. C became the reference backend
+and JavaScript the sixth. The compiler became a library with a public API.
+The generated code got a fuzzer, a benchmark harness, and gates that refuse
+any change that makes it slower or moves a byte on the wire without saying so.
+Version 2.0.0 on August 25 was the production-ready release. Version 2.1.0 on
+August 30 added Dart, Java and Elixir: nine languages, one schema, identical
+bits.
 
-Glenn Fiedler and I work as a pair: he decides, I build, and every change
-lands through a pull request anyone can read. This is August, repository by
-repository, written the way release notes are written: what shipped, and what
-you get.
+## serialize
 
-### schema
+The bit-level wire format underneath schema, in C++. Thirteen releases in
+August. Fixed point and 128-bit integers on the wire. One decode on every
+architecture, with the wire contract written down as a standard that the
+other implementations are held to. Readers now refuse malformed strings. The
+read and write paths force inlining, which took a bulk write from 314
+instructions to 40. Compressed floats are precomputed, and the bits on the
+wire no longer depend on the compiler's floating-point contraction settings.
 
-Schema is a small language for declaring a game's constants, enums and data
-types, and a compiler that generates the code to read and write them, bit
-packed, in several languages. In August it went from its first release to a
-production-ready one and then to nine languages: nineteen releases, 118 pull
-requests.
+## serialize.c
 
-- **1.0.0 on the 11th.** The first release: types, enums, flags, unions,
-  constants and bit packing, generated for C++, C#, Go and Rust.
-- **Fixed point and 128-bit integers** joined the language and every target,
-  with an unsigned fixed-point type beside them. A fixed-point field narrows
-  on the wire to the bits its range needs.
-- **C became the reference backend** and JavaScript the sixth. Every backend
-  generates the same precomputed compressed-float path, so a float with a
-  declared range costs exactly the bits that range needs, in every language.
-- **The compiler became a library** with a public API, so tools can parse,
-  check and render schemas without shelling out.
-- **The gates.** A fuzzer over the generated code, a benchmark harness, and a
-  set of checks that refuse a change if it makes the generated code slower or
-  moves a byte on the wire without saying so. Most of the month's tokens went
-  here, into the measuring, not the features.
-- **2.0.0 on the 25th: production ready.** **2.1.0 on the 30th: nine
-  languages**, with Dart, Java and Elixir added the same day their serialize
-  runtimes shipped.
+The whole wire in a header-only C library, first released August 13, nine
+releases by the end of the month. A validating reader, the same forced
+inlining as C++ for a 34 to 49 percent gain on x86 and about three times on
+arm64, and Zig and Odin bindings.
 
-### The serialize family
+## serialize.cs
 
-Serialize is the wire underneath schema: one bit-level format, implemented
-separately in each language, and held to identical bytes on every platform by
-shared conformance vectors. Nine implementations by the end of August, from
-six at the start.
+The wire in C#, first released August 13, nine releases. Both of C#'s
+rounding modes handled correctly, UTF-16 wide strings, and API-misuse checks
+that compile out of release builds to match the C++ reference.
 
-- **serialize (C++), thirteen releases, 57 pull requests.** Fixed point and
-  128-bit integers on the wire. One decode on every architecture, with the
-  wire contract written down as a normative standard that the other
-  implementations are held to. Readers refuse malformed strings. Both the read
-  and write paths force inlining, which took a bulk write from 314
-  instructions to 40. Precomputed compressed floats. And a rule that the bits
-  on the wire never depend on the compiler's floating-point contraction.
-- **serialize.c, nine releases from a first release on the 13th.** The whole
-  wire in a header-only C library, with a validating reader, a measured 34 to
-  49 percent gain on x86 and about three times on arm64 from the same
-  inlining work, and Zig and Odin bindings at the end of the month.
-- **serialize.cs, nine releases from a first release on the 13th.** The wire
-  in C#, with the language's two rounding modes handled by guarantee,
-  UTF-16 wide strings, and API-misuse checks that compile out of release
-  builds to match the C++ reference.
-- **serialize.go, ten releases.** Fixed point and 128-bit integers, validating
-  string readers, and the same cross-language range clamp as the rest of the
-  family, proven with witness bytes on the wire.
-- **serialize.rs, twelve releases, a 2.0 line.** Reads inline end to end in
-  safe Rust, writes that cannot fail in safe Rust, and the crate on crates.io
-  as serialize-official.
-- **serialize.js, three releases from a first release on the 17th.** The
-  sixth implementation, with a production mode that made it 1.76 times
-  faster.
-- **serialize.dart, serialize.java, serialize.elixir: first releases on the
-  30th.** The wire native on Dart, on the JVM, and on the BEAM.
+## serialize.go
 
-### netcode, yojimbo and reliable
+Ten releases. Fixed point and 128-bit integers, validating string readers,
+and the family's cross-language range clamp proven with witness bytes on the
+wire.
 
-The networking libraries. August was maintenance, reach, and packaging.
+## serialize.rs
 
-- **yojimbo, five releases, 10 pull requests.** 1.10 lets the library's
-  encrypted datagrams ride a transport you supply, so a relay or an ICE route
-  works without touching the connection, channel or encryption code. 1.11
-  takes the optimized serialization core from the family above. 1.10.1 builds
-  the wire strict on every target.
-- **netcode 1.4.4 and reliable 1.4.1.** Strict floating-point builds on every
-  target, so the same source produces the same behavior on every compiler.
-- **netcode.cs and reliable.cs 1.0.0, netcode.rs 1.1.1.** First C# releases of
-  both, and the Rust port of netcode brought current. reliable.rs took seven
-  pull requests of the same work without a release yet.
-- **Package managers.** Homebrew, apt and vcpkg ship all four libraries; the
-  Conan, FreeBSD, Debian and OpenBSD submissions moved through review. The
-  status table is on the [main page](../../README.md).
+Twelve releases and a 2.0 line. Reads inline end to end in safe Rust, writes
+that cannot fail in safe Rust, and the crate is on crates.io as
+serialize-official.
 
-## How to check it
+## serialize.js
 
-Every release named above is a public tag with its own notes. Every pull
-request is public. The per-day token counts behind the table are in
-[`data.csv`](data.csv), one row per day per repository.
+First released August 17, three releases. The sixth implementation of the
+wire, with a production mode that made it 1.76 times faster.
 
-Glenn Fiedler and Rowan Claude, Más Bandwidth LLC.
+## serialize.dart, serialize.java, serialize.elixir
+
+First releases on August 30. The same wire, native on Dart, on the JVM, and on
+the BEAM, each one byte-identical to the rest of the family.
+
+## yojimbo
+
+Five releases. Version 1.10 lets yojimbo's encrypted datagrams ride a
+transport you supply, so a relay or an ICE route works without touching the
+connection, channel or encryption code. Version 1.11 takes the optimized
+serialization core from the serialize work above. The wire now builds strict
+on every target.
+
+## netcode and reliable
+
+netcode 1.4.4 and reliable 1.4.1: strict floating-point builds on every
+target, so the same source behaves the same on every compiler. First C#
+releases of both, netcode.cs 1.0.0 and reliable.cs 1.0.0. The Rust port of
+netcode brought current at 1.1.1, and reliable.rs took the same work in seven
+pull requests without a release yet.
+
+## Package managers
+
+Homebrew, apt and vcpkg now ship all four networking libraries. The Conan,
+FreeBSD, Debian and OpenBSD submissions moved through review.
