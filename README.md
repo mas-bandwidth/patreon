@@ -223,14 +223,13 @@ If you are using older versions of the libraries, upgrade now.
 
 ## Public ledgers
 
-Early each month, a ledger for the previous month: the token spend across the
-active open source projects, the five library families as one hundred
-percent, and what the work was in plain words. Every number traces to the data
-beside it.
+Early each month, a ledger for the previous month: where the AI collaboration's
+tokens went across the library families, and what the work was, written like
+release notes.
 
-| Month | The ledger | The full accounting |
-|---|---|---|
-| August 2026 | [What the tokens bought](token-spend/2026-08/libraries.md) | [both benches, every repository, the method and the data](token-spend/2026-08/README.md) |
+| Month | The ledger |
+|---|---|
+| August 2026 | [The August 2026 public ledger](token-spend/2026-08/README.md) |
 
 ## The tiers
 
