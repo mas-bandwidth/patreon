@@ -1,5 +1,7 @@
 # August 2026
 
+If this work helps you, please support it: **[Become a supporter](https://www.patreon.com/MasBandwidth/membership)**
+
 In August, schema went from its first release to production ready to nine
 languages. The serialize wire went from six implementations to nine, all held
 to identical bits. The networking libraries, yojimbo, netcode and reliable,
