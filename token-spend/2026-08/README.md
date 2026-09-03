@@ -1,7 +1,13 @@
 # August 2026
 
-Where the AI tokens went across the open source libraries in August, and what
-got done in each one.
+In August, schema went from its first release to production ready to nine
+languages. The serialize wire went from six implementations to nine, all held
+to identical bits. The networking libraries, yojimbo, netcode and reliable,
+got strict builds on every compiler, first C# releases, and landed in Homebrew,
+apt and vcpkg. If you write a game in more than one language, or ship a
+client and server that have to agree on every bit, that is the work.
+
+Where the AI tokens went, by repository, and what got done in each one:
 
 | Repository | Tokens | Share |
 |---|---:|---:|
