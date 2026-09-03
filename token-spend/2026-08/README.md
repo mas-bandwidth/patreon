@@ -13,23 +13,23 @@ Where the AI tokens went, by repository, and what got done in each one:
 
 | Repository | Tokens | Share |
 |---|---:|---:|
-| schema | 2,276,512,763 | 68.93% |
-| serialize | 347,530,706 | 10.52% |
-| serialize.c | 164,910,964 | 4.99% |
-| serialize.rs | 106,605,269 | 3.23% |
-| serialize.js | 101,807,806 | 3.08% |
-| serialize.go | 87,464,312 | 2.65% |
-| serialize.cs | 75,994,304 | 2.30% |
-| serialize.dart | 28,407,049 | 0.86% |
-| serialize.java | 26,909,542 | 0.81% |
-| serialize.elixir | 25,409,341 | 0.77% |
-| netcode | 18,598,562 | 0.56% |
-| netcode.cs | 16,549,459 | 0.50% |
-| yojimbo | 12,068,078 | 0.37% |
-| reliable.cs | 8,349,623 | 0.25% |
-| reliable | 5,331,851 | 0.16% |
-| netcode.rs | 287,291 | 0.01% |
-| reliable.rs | 41,884 | 0.00% |
+| [schema](https://github.com/mas-bandwidth/schema) | 2,276,512,763 | 68.93% |
+| [serialize](https://github.com/mas-bandwidth/serialize) | 347,530,706 | 10.52% |
+| [serialize.c](https://github.com/mas-bandwidth/serialize.c) | 164,910,964 | 4.99% |
+| [serialize.rs](https://github.com/mas-bandwidth/serialize.rs) | 106,605,269 | 3.23% |
+| [serialize.js](https://github.com/mas-bandwidth/serialize.js) | 101,807,806 | 3.08% |
+| [serialize.go](https://github.com/mas-bandwidth/serialize.go) | 87,464,312 | 2.65% |
+| [serialize.cs](https://github.com/mas-bandwidth/serialize.cs) | 75,994,304 | 2.30% |
+| [serialize.dart](https://github.com/mas-bandwidth/serialize.dart) | 28,407,049 | 0.86% |
+| [serialize.java](https://github.com/mas-bandwidth/serialize.java) | 26,909,542 | 0.81% |
+| [serialize.elixir](https://github.com/mas-bandwidth/serialize.elixir) | 25,409,341 | 0.77% |
+| [netcode](https://github.com/mas-bandwidth/netcode) | 18,598,562 | 0.56% |
+| [netcode.cs](https://github.com/mas-bandwidth/netcode.cs) | 16,549,459 | 0.50% |
+| [yojimbo](https://github.com/mas-bandwidth/yojimbo) | 12,068,078 | 0.37% |
+| [reliable.cs](https://github.com/mas-bandwidth/reliable.cs) | 8,349,623 | 0.25% |
+| [reliable](https://github.com/mas-bandwidth/reliable) | 5,331,851 | 0.16% |
+| [netcode.rs](https://github.com/mas-bandwidth/netcode.rs) | 287,291 | 0.01% |
+| [reliable.rs](https://github.com/mas-bandwidth/reliable.rs) | 41,884 | 0.00% |
 | **total** | **3,302,778,804** | **100%** |
 
 ## schema
