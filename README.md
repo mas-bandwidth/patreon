@@ -45,47 +45,65 @@ live in **[open-ledger](https://github.com/mas-bandwidth/open-ledger)**.
 
 The reference libraries under [github.com/mas-bandwidth](https://github.com/mas-bandwidth),
 open source, used in shipped games. Each library states its license in its own
-repository. *Star counts as of August 2026, and they only go up.*
+repository. *Versions and star counts as of 3 September 2026.*
 
 | Library | What it does | Latest | Stars |
 |---|---|---|---|
-| **[yojimbo](https://github.com/mas-bandwidth/yojimbo)** | Client/server network protocol for games, encrypted and dedicated-server ready | v1.10.1 | about 2.7k |
-| **[netcode](https://github.com/mas-bandwidth/netcode)** | Secure client/server connection over UDP (connect tokens, encryption) | v1.4.3 | about 2.6k |
-| **[reliable](https://github.com/mas-bandwidth/reliable)** | Reliable-ordered messages and acks over UDP | v1.4.0 | about 650 |
-| **[serialize](https://github.com/mas-bandwidth/serialize)** | Bitpacking and serialization, one unified read/write path | v1.15.0 | about 130 |
+| **[yojimbo](https://github.com/mas-bandwidth/yojimbo)** | Client/server network protocol for games, encrypted and dedicated-server ready | v1.11.0 | about 2.7k |
+| **[netcode](https://github.com/mas-bandwidth/netcode)** | Secure client/server connection over UDP (connect tokens, encryption) | v1.4.4 | about 2.6k |
+| **[reliable](https://github.com/mas-bandwidth/reliable)** | Reliable-ordered messages and acks over UDP | v1.4.1 | about 650 |
+| **[serialize](https://github.com/mas-bandwidth/serialize)** | Bitpacking and serialization, one unified read/write path | v1.15.0 | about 140 |
+| **[schema](https://github.com/mas-bandwidth/schema)** | The schema language for games: constants, enums and data types compiled to nine languages | v2.4.0 | new |
+| **[fixed](https://github.com/mas-bandwidth/fixed)** | Deterministic Q48.16 fixed-point math: scalars, vectors, quaternions, transforms | v1.4.0 | new |
 | **[fixed3d](https://github.com/mas-bandwidth/fixed3d)** | Cross-platform **deterministic** fixed-point physics | v1.4.0 | new |
 
-**Ports to other languages** (so the protocols aren't C-only): Go and Rust
-ports of netcode, reliable, and serialize:
+**Ports to other languages**, so the protocols are not C-only. netcode and
+reliable each have C#, Go and Rust ports:
+[netcode.cs](https://github.com/mas-bandwidth/netcode.cs),
 [netcode.go](https://github.com/mas-bandwidth/netcode.go),
 [netcode.rs](https://github.com/mas-bandwidth/netcode.rs),
+[reliable.cs](https://github.com/mas-bandwidth/reliable.cs),
 [reliable.go](https://github.com/mas-bandwidth/reliable.go),
-[reliable.rs](https://github.com/mas-bandwidth/reliable.rs),
-[serialize.go](https://github.com/mas-bandwidth/serialize.go),
-[serialize.rs](https://github.com/mas-bandwidth/serialize.rs).
-The serialize family covers six languages in all, below.
+[reliable.rs](https://github.com/mas-bandwidth/reliable.rs).
+The serialize family covers nine languages, below.
 
 ## What just landed
 
-**[schema](https://github.com/mas-bandwidth/schema)** is a compiled schema
-language for bitpacked serialization: types, enums, flags, unions, constants
-and bitpacking, compiled to C, C++, C#, Go, Rust and JavaScript. Write the
-schema once and every language reads and writes the same bytes. The compiler
-is also a library with a public API, the generated code is fuzz tested, and
-[v2.0.0](https://github.com/mas-bandwidth/schema/releases) is production
-ready.
+**[schema](https://github.com/mas-bandwidth/schema)** is the schema language
+for games. You declare your constants, enums and data types once, and the
+compiler generates the code that reads and writes them, bitpacked, in nine
+languages: C, C++, C#, Dart, Elixir, Go, Java, JavaScript and Rust. Every
+language agrees on every bit, and a protocol id computed from the declaration
+refuses a mismatched build before a byte is misread. The compiler is a library
+with a public API, the generated code is fuzz tested and benchmarked per
+language, and every release is gated against the last one so it cannot get
+slower or move a byte on the wire without saying so.
+[v2.0.0](https://github.com/mas-bandwidth/schema/releases/tag/v2.0.0) on
+25 August was the production-ready line.
+[v2.1.0](https://github.com/mas-bandwidth/schema/releases/tag/v2.1.0) made it
+nine languages.
+[v2.3.0](https://github.com/mas-bandwidth/schema/releases/tag/v2.3.0) added
+tables, a second kind of declaration for data that has to survive schema
+changes, and
+[v2.4.0](https://github.com/mas-bandwidth/schema/releases/tag/v2.4.0) made
+the generated Dart and JavaScript faster.
 
-Underneath it, **serialize is six implementations of one wire format**:
+Underneath it, **serialize is nine implementations of one wire format**:
 [C++](https://github.com/mas-bandwidth/serialize),
 [C](https://github.com/mas-bandwidth/serialize.c),
 [C#](https://github.com/mas-bandwidth/serialize.cs),
+[Dart](https://github.com/mas-bandwidth/serialize.dart),
+[Elixir](https://github.com/mas-bandwidth/serialize.elixir),
 [Go](https://github.com/mas-bandwidth/serialize.go),
-[Rust](https://github.com/mas-bandwidth/serialize.rs) and
-[JavaScript](https://github.com/mas-bandwidth/serialize.js). The wire
-contract is written down as a normative standard in the C++ repo
-(STANDARD.md), and byte-pinned conformance vectors hold every implementation
-to identical bytes on every platform and architecture. Fixed point and
-128-bit integers ride the same wire.
+[Java](https://github.com/mas-bandwidth/serialize.java),
+[JavaScript](https://github.com/mas-bandwidth/serialize.js) and
+[Rust](https://github.com/mas-bandwidth/serialize.rs). The wire contract is
+written down as a normative standard in the C++ repository, and byte-pinned
+conformance vectors hold every implementation to identical bytes on every
+platform and architecture. Fixed point and 128-bit integers ride the same
+wire, and the bits never depend on the compiler's floating-point mood. Dart,
+Java and Elixir shipped their first releases on 30 August, the same day
+schema learned to generate for them.
 
 **[fixed](https://github.com/mas-bandwidth/fixed)** is a standalone
 deterministic Q48.16 fixed-point math library: scalar math, vectors,
@@ -95,10 +113,49 @@ workflow that goes red if the vendored tree ever diverges from the pin.
 [v1.4.0](https://github.com/mas-bandwidth/fixed/releases) is production
 ready.
 
-And **[yojimbo v1.10](https://github.com/mas-bandwidth/yojimbo/releases)**
-lets the Adapter carry yojimbo's encrypted datagrams over a transport you
-supply (an ICE/TURN route, a relay, anything with an address), opt-in, without
-touching yojimbo's connection, channel, encryption or fragmentation behavior.
+And the networking libraries: **[yojimbo v1.11](https://github.com/mas-bandwidth/yojimbo/releases)**
+takes the optimized serialization core from the family above, after v1.10
+let its encrypted datagrams ride a transport you supply. netcode 1.4.4 and
+reliable 1.4.1 build strict on every target, and their C# and Rust ports
+shipped first releases in August.
+
+## What is coming in September
+
+Schema is becoming more than bitpacked types. The bitpacked wire is the right
+tool for a packet between a client and a server that ship together. It is the
+wrong tool for a save game, a message between a tool and a backend that ship
+months apart, an asset file the game should map and point at, or the render
+data C++ hands to C# sixty times a second. Until now those needed something
+else, usually Protocol Buffers or FlatBuffers beside schema. The September
+push is to make schema do all of it, so one declaration serves every data
+type in a game.
+
+The pieces are on main and being finished across all nine languages:
+
+- **Tables** carry field ids and lengths, so any build reads any data. An
+  unknown field is skipped, a missing one takes its default, and a report says
+  what changed. That is the message format and the save game format.
+- **A committed baseline** refuses, at compile time, the few edits that change
+  what old data means without changing a byte, so a save game never breaks
+  silently.
+- **Enum-keyed arrays**, arrays indexed by an enum that size themselves and
+  cannot be indexed by nothing.
+- **The block form**, every fixed table laid out for another language to
+  point at, generated on both sides and asserted at compile time. Render data
+  from C++ to Unity's C# with no copy and no parse.
+- **The cook**, a table's data written in one build's exact memory layout so
+  the game maps the file and points at it. A gigabyte opens as fast as a
+  kilobyte. This one ships as a preview.
+- **JSON in, binary out**, so data authored as text becomes a compact table
+  any language reads, and **reflection descriptors** so an editor can walk any
+  table it has never seen.
+
+All of it is dogfooded in a real game first, the same one the networking
+libraries run in, and it ships as schema 3.0.0 when every language has it and
+every language has been stress tested and profiled. The README on the
+[schema repository](https://github.com/mas-bandwidth/schema) is being
+rewritten around these use cases, and the release notes will say plainly
+what you get.
 
 ## fixed3d
 
@@ -123,7 +180,7 @@ There will be more work like this. Support the Patreon and you'll see more of it
 Part of the work nobody sees: getting these libraries into the package managers
 so people can just `install` them instead of vendoring source. Each ecosystem
 has its own submission process, maintainers, and review. This is the ongoing
-push. *Status as of August 2026. The links are the live source of truth.*
+push. *Status as of 3 September 2026. The links are the live source of truth.*
 
 | Package manager | Status | Where it stands |
 |---|---|---|
