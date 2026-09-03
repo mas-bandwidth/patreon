@@ -5,7 +5,9 @@ languages. The serialize wire went from six implementations to nine, all held
 to identical bits. The networking libraries, yojimbo, netcode and reliable,
 got strict builds on every compiler, first C# releases, and landed in Homebrew,
 apt and vcpkg. If you write a game in more than one language, or ship a
-client and server that have to agree on every bit, that is the work.
+client and server that have to agree on every bit, schema is a language that 
+will help you do this without ever having to hand-code definitions in each language ever again.
+
 
 Where the AI tokens went, by repository, and what got done in each one:
 
