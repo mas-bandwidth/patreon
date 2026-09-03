@@ -69,8 +69,10 @@ The serialize family covers nine languages, below.
 
 ## What just landed
 
-**[schema](https://github.com/mas-bandwidth/schema)** is the schema language
-for games. You declare your constants, enums and data types once, and the
+If you write a game in more than one language, or ship a client and server that
+have to agree on every bit, **[schema](https://github.com/mas-bandwidth/schema)**
+is a language that will help you do this without ever having to hand-code
+definitions in each language ever again. You declare your constants, enums and data types once, and the
 compiler generates the code that reads and writes them, bitpacked, in nine
 languages: C, C++, C#, Dart, Elixir, Go, Java, JavaScript and Rust. Every
 language agrees on every bit, and a protocol id computed from the declaration
