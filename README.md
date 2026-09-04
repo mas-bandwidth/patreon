@@ -28,10 +28,12 @@ If this work matters to you, please support it: **[Become a supporter](https://w
 For twenty years I've written about how multiplayer games work and given the
 code away. The articles are free. The libraries are open source and running in
 real games right now. This Patreon supports the continued
-work, and every month an open ledger shows exactly where the money goes.
+work, and every month a public ledger shows exactly where the AI
+collaboration's tokens went and what they bought.
 
 This repo is the public reference for what the Patreon funds. The monthly books
-live in **[open-ledger](https://github.com/mas-bandwidth/open-ledger)**.
+are the [public ledgers](#public-ledgers) below, kept in tokens: the
+collaboration runs on flat-rate plans, so tokens are the honest unit.
 
 ## The articles
 
@@ -196,11 +198,11 @@ push. *Status as of 3 September 2026. The links are the live source of truth.*
 
 Homebrew, apt and vcpkg are done. The rest are moving through their review
 pipelines.
-Progress shows up in the monthly [ledger](https://github.com/mas-bandwidth/open-ledger).
+Progress shows up in the monthly [ledger](#public-ledgers).
 
 Over **6,000 GitHub stars** across the core libraries, and a steady stream of
-releases. The [open ledger](https://github.com/mas-bandwidth/open-ledger)
-tracks each month's work with commit ranges you can verify.
+releases. The [public ledgers](#public-ledgers) track each month's work,
+with links you can verify.
 
 ## The craft, plainly
 
@@ -217,8 +219,7 @@ multi-million-iteration sanitizer soaks before every release, and found real
 bugs in code that had shipped in real games for close to a decade, including
 a remotely reachable heap overflow present in every yojimbo release since
 2019. Every fix has a regression test. The token cost of the collaboration is
-a line item in the [ledger](https://github.com/mas-bandwidth/open-ledger)
-like everything else.
+a line item in the [ledger](#public-ledgers) like everything else.
 
 **[The full list of bugs found and fixed with the help of AI](BUGS.md)**
 If you are using older versions of the libraries, upgrade now.
