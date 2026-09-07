@@ -238,7 +238,6 @@ release notes.
 
 | | | |
 |---|---|---|
-| **Free** | $0 | The posts: new articles and the monthly ledger, as they land. |
 | **Thanks** | $1 | For twenty years of free articles. |
 | **Supporter** | $5 | Keeps the articles and libraries funded. |
 | **Ledger** | $10 | The full itemized monthly books. |
